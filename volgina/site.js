@@ -79,3 +79,28 @@ document.querySelectorAll('.button').forEach(button => {
     button.style.setProperty('--my', '0px');
   });
 });
+
+// Keep all photographs available without JS; collapse only after wiring the control.
+const galleryExtra = document.querySelector('#gallery-extra');
+const galleryToggle = document.querySelector('.gallery-toggle');
+if (galleryExtra && galleryToggle) {
+  galleryExtra.hidden = true;
+  galleryToggle.hidden = false;
+  galleryToggle.setAttribute('aria-expanded', 'false');
+  galleryToggle.textContent = 'Посмотреть все фотографии';
+  galleryToggle.addEventListener('click', () => {
+    const expanding = galleryExtra.hidden;
+    galleryExtra.hidden = !expanding;
+    galleryToggle.setAttribute('aria-expanded', String(expanding));
+    galleryToggle.textContent = expanding ? 'Скрыть фотографии' : 'Посмотреть все фотографии';
+    if (expanding) {
+      galleryExtra.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+    } else {
+      galleryToggle.scrollIntoView({ block: 'center', behavior: 'instant' });
+    }
+    scheduleScrollEffects();
+  });
+  galleryExtra.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', scheduleScrollEffects, { once: true });
+  });
+}
