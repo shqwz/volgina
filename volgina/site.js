@@ -6,7 +6,7 @@ menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')
 nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 const dialog=document.querySelector('.lightbox');
 const image=dialog.querySelector('img');
-document.querySelectorAll('[data-lightbox],[data-review]').forEach(trigger=>trigger.addEventListener('click',event=>{event.preventDefault();image.src=trigger.dataset.review||trigger.getAttribute('href');image.alt=trigger.querySelector('img')?.alt||trigger.querySelector('h3').textContent;dialog.showModal();document.body.style.overflow='hidden';}));
+document.querySelectorAll('[data-lightbox],[data-review]').forEach(trigger=>trigger.addEventListener('click',event=>{event.preventDefault();image.classList.toggle('review-clean-edges', !!trigger.querySelector('img.review-clean-edges'));image.src=trigger.dataset.review||trigger.getAttribute('href');image.alt=trigger.querySelector('img')?.alt||trigger.querySelector('h3').textContent;dialog.showModal();document.body.style.overflow='hidden';}));
 function closeLightbox(){dialog.close();}
 dialog.querySelector('button').addEventListener('click',closeLightbox);
 dialog.addEventListener('click',event=>{if(event.target===dialog)closeLightbox();});

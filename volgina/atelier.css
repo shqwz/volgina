@@ -91,3 +91,5 @@ body:before{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opa
   .review-hint{margin-top:20px}
 }
 @media(prefers-reduced-motion:reduce){.reviews-grid{scroll-behavior:auto}}
+/* Mask the 5px capture borders inside the 1160px-wide source screenshots. */
+img.review-clean-edges{clip-path:inset(0 .55%)}
