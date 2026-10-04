@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; background:#EDEFE9; }
+  * { box-sizing:border-box; }
+  a { color:inherit; text-decoration:none; }
+</style>
+</helmet>
+<div style="padding:clamp(40px,6vw,80px) clamp(20px,5vw,56px);color:#2F3A33">
+  <div style="max-width:1120px;margin:0 auto">
+    <div style="text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(28px,3.6vw,44px)">Галерея</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(10px,1.6vw,18px);align-items:start">
+      <div data-col="0" style="display:flex;flex-direction:column;gap:clamp(10px,1.6vw,18px)">
+        <img src="./images/g1.jpg" alt="Праздник" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover">
+        <img src="./images/g3.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover">
+        <img src="./images/g5.jpg" alt="Ирина Волгина" loading="lazy" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover">
+        <img src="./images/g7.jpg" alt="Ирина Волгина" loading="lazy" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover">
+      </div>
+      <div data-col="1" style="display:flex;flex-direction:column;gap:clamp(10px,1.6vw,18px)">
+        <img src="./images/g2.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover">
+        <img src="./images/g4.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover">
+        <img src="./images/g6.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover">
+        <img src="./images/g8.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover">
+      </div>
+      <div data-col="2" style="display:flex;flex-direction:column;gap:clamp(10px,1.6vw,18px)">
+        <img src="./images/g9.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover">
+        <img src="./images/g10.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover">
+        <img src="./images/g11.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover">
+        <img src="./images/g12.jpg" alt="Праздник" loading="lazy" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover">
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cols = Array.from(document.querySelectorAll('[data-col]'));
+    const shift = [0, -50, -22];
+    let raf = null;
+    const apply = () => {
+      raf = null;
+      if (window.innerWidth < 900) { cols.forEach(c => c.style.transform = ''); return; }
+      const y = window.scrollY;
+      cols.forEach((c, i) => {
+        c.style.transform = 'translate3d(0,' + (y * shift[i] / 1000) + 'px,0)';
+      });
+    };
+    this._onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll);
+    apply();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+  }
+}
+</script>
+</body>
+</html>

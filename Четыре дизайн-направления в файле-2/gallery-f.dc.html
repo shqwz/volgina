@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; background:#EDEFE9; }
+  * { box-sizing:border-box; }
+  a { color:inherit; text-decoration:none; }
+</style>
+</helmet>
+<div style="padding:clamp(40px,6vw,80px) clamp(20px,5vw,56px);color:#2F3A33">
+  <div style="max-width:1120px;margin:0 auto">
+    <div style="text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(28px,3.6vw,44px)">Галерея</div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px">
+      <sc-for list="{{ shots }}" as="shot" hint-placeholder-count="12">
+        <button onClick="{{ shot.open }}" style="flex:1 1 210px;min-width:0;border:0;padding:0;background:#E3E6DE;cursor:pointer;overflow:hidden;display:block">
+          <img src="{{ shot.src }}" alt="Праздник" loading="lazy" style="display:block;width:100%;height:clamp(180px,20vw,260px);object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1),opacity 500ms ease" style-hover="transform:scale(1.05);opacity:.88">
+        </button>
+      </sc-for>
+    </div>
+  </div>
+</div>
+<sc-if value="{{ isOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ close }}" style="position:fixed;inset:0;z-index:50;background:rgba(47,58,51,0.92);display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,56px);cursor:zoom-out">
+    <img src="{{ openSrc }}" alt="Праздник" style="display:block;max-width:100%;max-height:100%;object-fit:contain">
+    <button onClick="{{ prev }}" style="position:absolute;left:0;top:0;height:100%;width:clamp(56px,10vw,120px);border:0;background:transparent;color:#EDEFE9;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;cursor:pointer">‹</button>
+    <button onClick="{{ next }}" style="position:absolute;right:0;top:0;height:100%;width:clamp(56px,10vw,120px);border:0;background:transparent;color:#EDEFE9;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;cursor:pointer">›</button>
+    <div style="position:absolute;bottom:clamp(14px,3vw,28px);left:0;right:0;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#C3CBBF">{{ counter }}</div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: null };
+  files = Array.from({length:12}, (_, k) => './images/g' + (k+1) + '.jpg');
+  step(d) {
+    this.setState(s => ({ open: (s.open + d + this.files.length) % this.files.length }));
+  }
+  renderVals() {
+    const i = this.state.open;
+    return {
+      shots: this.files.map((src, k) => ({ src, open: () => this.setState({ open: k }) })),
+      isOpen: i !== null,
+      openSrc: i === null ? '' : this.files[i],
+      counter: i === null ? '' : String(i+1).padStart(2,'0') + ' / ' + this.files.length,
+      close: () => this.setState({ open: null }),
+      prev: e => { e.stopPropagation(); this.step(-1); },
+      next: e => { e.stopPropagation(); this.step(1); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; background:#EDEFE9; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+<section style="position:relative;width:100%;background:#EDEFE9;color:#2F3A33">
+  <div data-hint="1" style="pointer-events:none;position:absolute;left:50%;top:76vh;transform:translateX(-50%);text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#5D6B60">
+    <span>Листайте вниз</span>
+    <span style="display:block;width:1px;height:64px;margin:14px auto 0;background:linear-gradient(to bottom,rgba(93,107,96,0),rgba(93,107,96,.5))"></span>
+  </div>
+
+  <div style="pointer-events:none;position:sticky;top:50vh;z-index:20;transform:translateY(-50%);text-align:center;color:#fff;mix-blend-mode:exclusion">
+    <h2 style="margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(52px,11vw,150px);line-height:1;letter-spacing:.02em">Галерея</h2>
+    <p style="margin:10px 0 0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.34em;text-transform:uppercase;opacity:.75">15 лет на сцене</p>
+  </div>
+
+  <div style="position:relative;z-index:0;margin:42vh 0">
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g1.jpg" alt="Праздник" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g2.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+    </div>
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g3.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g4.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+    </div>
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g5.jpg" alt="Ирина Волгина" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g6.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+    </div>
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g7.jpg" alt="Ирина Волгина" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g8.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+    </div>
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g9.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g10.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+    </div>
+    <div style="display:flex;width:100%">
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:right bottom;transform:scale(1)"><img src="./images/g11.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+      <div style="flex:1;aspect-ratio:1/1"></div>
+      <div style="flex:1;aspect-ratio:1/1"><div data-tile="1" style="height:100%;width:100%;transform-origin:left bottom;transform:scale(1)"><img src="./images/g12.jpg" alt="Праздник" loading="lazy" draggable="false" style="height:100%;width:100%;object-fit:cover;display:block"></div></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = null;
+    const apply = () => {
+      raf = null;
+      const vh = window.innerHeight;
+      const hint = document.querySelector('[data-hint]');
+      Array.from(document.querySelectorAll('[data-tile]')).forEach(t => {
+        const r = t.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const span = (vh + r.height) / 2;
+        const d = Math.min(1, Math.abs(center - vh / 2) / span);
+        const p = 1 - d;
+        const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        t.style.transform = 'scale(' + eased.toFixed(4) + ')';
+      });
+      if (hint) hint.style.opacity = String(Math.max(0, 1 - window.scrollY / (vh * 0.4)));
+    };
+    this._on = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    window.addEventListener('scroll', this._on, { passive: true });
+    window.addEventListener('resize', this._on);
+    document.addEventListener('scroll', this._on, { passive: true, capture: true });
+    apply();
+    requestAnimationFrame(apply);
+    setTimeout(apply, 300);
+    setTimeout(apply, 1200);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._on);
+    window.removeEventListener('resize', this._on);
+    document.removeEventListener('scroll', this._on, true);
+  }
+}
+</script>
+</body>
+</html>

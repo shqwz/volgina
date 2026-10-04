@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Ирина Волгина — ведущая праздников в Новосибирске</title>
+<meta name="description" content="Ирина Волгина — ведущая событий в Новосибирске. Свадьбы, юбилеи, корпоративы и камерные вечера. Интеллигентный юмор без пошлых конкурсов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400;500&family=Marck+Script&display=swap" rel="stylesheet">
+<style>
+  html { -webkit-text-size-adjust: 100%; background: #F4F2EC; }
+  :root { --hdr: 64px; }
+  body { margin: 0; padding: 0; background: #F4F2EC; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { opacity: .85; }
+  @media (min-width: 761px) {
+    [data-nav-desktop] { display: flex !important; }
+    [data-nav-dropdown] { display: none !important; }
+    [data-gallery-extra] { display: block !important; }
+    [data-gallery-more] { display: none !important; }
+  }
+  @media (max-width: 760px) {
+    [data-gallery-extra][data-expanded="no"] { display: none !important; }
+  }
+  @media (max-width: 760px) {
+    [data-nav-desktop] { display: none !important; }
+    [data-nav-toggle] { display: flex !important; }
+  }
+  @media (min-width: 761px) { [data-reviews-mobile] { display: none !important; } }
+  @media (max-width: 760px) { [data-reviews-desktop] { display: none !important; } }
+  [data-review-group]:has([data-review-card]:hover) [data-review-card]:not(:hover) { opacity: .6; transition: opacity 450ms ease; }
+  [data-review-card] { transition: opacity 450ms ease; }
+  [data-gallery-grid] > a { width: calc((100% - 3 * var(--gg)) / 4); }
+  @media (max-width: 1125px) { [data-gallery-grid] > a { width: calc((100% - 2 * var(--gg)) / 3); } }
+  @media (max-width: 840px) { [data-gallery-grid] > a { width: calc((100% - var(--gg)) / 2); } }
+  @media (max-width: 590px) { [data-gallery-grid] > a { width: 100%; } }
+  @keyframes stitch { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @media (hover: none) {
+    [data-hero-cta]:hover { background: transparent !important; color: #7A6743 !important; }
+    [data-hero-cta]:active { background: #C7AC7C !important; color: #FBFAF6 !important; }
+  }
+  @media (max-width: 900px) {
+    [data-hero-script] { display: none !important; }
+    [data-hero-photo] { width: 62% !important; }
+    [data-hero-text] > div { max-width: min(400px, 58%) !important; }
+  }
+  @media (max-width: 700px) {
+    [data-hero] { flex-direction: column !important; align-items: stretch !important; }
+    [data-hero-photo] { position: relative !important; width: 100% !important; height: calc(52svh + 20px); order: 2;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0px, #000 10px) !important;
+      mask-image: linear-gradient(to bottom, transparent 0px, #000 10px) !important; }
+    [data-hero-photo] > div { background: linear-gradient(to bottom, #F4F2EC 0px, rgba(244,242,236,0) 10px) !important; }
+    [data-hero-photo] img { object-position: 50% calc(22% + 20px) !important; }
+    [data-hero-text] { order: 1; padding-top: 40px !important; }
+    [data-hero-text] > div { max-width: none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-stitch] { animation: none !important; }
+  }
+</style>
+</helmet>
+
+<div style="background:#F4F2EC;position:relative">
+  <div style="position:relative;z-index:1">
+  <header style="position:sticky;top:0;z-index:5;background:#F4F2EC;border-bottom:1px solid #DCE0D6">
+    <div style="max-width:1120px;margin:0 auto;padding:clamp(12px,1.6vw,18px) clamp(20px,5vw,56px);display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px)">
+      <a href="#top" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(17px,2vw,21px);letter-spacing:.12em;color:#2F3A33;white-space:nowrap">Ирина Волгина</a>
+      <nav style="display:none;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:clamp(14px,2.4vw,30px);font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#5D6B60" data-nav-desktop="1">
+        <a href="#about" style="transition:color 300ms ease;color:{{ navColorAbout }}" style-hover="color:#B08D57">Обо мне</a>
+        <a href="#services" style="transition:color 300ms ease;color:{{ navColorServices }}" style-hover="color:#B08D57">Форматы</a>
+        <a href="#gallery" style="transition:color 300ms ease;color:{{ navColorGallery }}" style-hover="color:#B08D57">Галерея</a>
+        <a href="#reviews" style="transition:color 300ms ease;color:{{ navColorReviews }}" style-hover="color:#B08D57">Отзывы</a>
+      </nav>
+      <button onClick="{{ toggleNav }}" aria-label="Меню" style="display:none;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid #C3CBBF;background:transparent;cursor:pointer;flex-direction:column;gap:5px" data-nav-toggle="1">
+        <span style="display:block;width:18px;height:1px;background:#2F3A33;transition:transform 300ms ease;transform:{{ burgerTop }}"></span>
+        <span style="display:block;width:18px;height:1px;background:#2F3A33;transition:transform 300ms ease;transform:{{ burgerBottom }}"></span>
+      </button>
+    </div>
+    <nav data-nav-dropdown style="display:{{ navDropdownDisplay }};position:absolute;left:0;right:0;top:100%;background:#F4F2EC;flex-direction:column;align-items:center;text-align:center;padding:18px clamp(20px,5vw,56px);gap:16px;border-bottom:1px solid #DCE0D6;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#5D6B60;border-top:1px solid #DCE0D6">
+      <a href="#about" onClick="{{ closeNav }}">Обо мне</a>
+      <a href="#services" onClick="{{ closeNav }}">Форматы</a>
+      <a href="#gallery" onClick="{{ closeNav }}">Галерея</a>
+      <a href="#reviews" onClick="{{ closeNav }}">Отзывы</a>
+    </nav>
+  </header>
+  <div id="top" data-hero style="background:#F4F2EC;position:relative;min-height:min(calc(100svh - var(--hdr, 64px)),920px);color:#2F3A33;overflow:hidden;display:flex;align-items:center">
+    <div data-hero-photo style="position:absolute;right:0;top:0;bottom:0;width:56%;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0px,#000 30px);mask-image:linear-gradient(to right,transparent 0px,#000 30px)">
+      <img src="./images/hero-main.jpg" alt="Ирина Волгина" fetchpriority="high" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover;object-position:38% 22%">
+      <div style="position:absolute;inset:0;background:linear-gradient(to right,#F4F2EC 0px,rgba(244,242,236,0) 30px)"></div>
+    </div>
+
+    <div data-hero-text style="position:relative;z-index:1;width:100%;padding:calc(clamp(26px,4vw,48px) - 40px) clamp(20px,5vw,56px) clamp(30px,4vw,52px) clamp(20px,10vw,180px)">
+      <div style="max-width:min(500px,52%)">
+        <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57">Ведущая праздников в Новосибирске</div>
+        <h1 data-anim="dissolve" data-d="100" style="margin:clamp(18px,2.6vw,30px) 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(46px,6.2vw,86px);line-height:1.02;letter-spacing:.01em">Ирина<br>Волгина</h1>
+        <div data-anim="dissolve" data-d="180" style="display:flex;align-items:center;gap:clamp(12px,1.6vw,20px);margin:clamp(18px,2.4vw,28px) 0 0">
+          <span style="display:block;flex:0 0 clamp(26px,4vw,54px);height:1px;background:#C7AC7C"></span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(19px,2vw,24px);line-height:1.3;color:#2F3A33;text-wrap:pretty">Ведущая событий, в которых есть душа, стиль и смысл</span>
+        </div>
+        <p data-anim="dissolve" data-d="240" style="margin:clamp(22px,3vw,34px) 0 0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:clamp(15px,1.6vw,17px);line-height:1.75;color:#4B5A4F;max-width:34ch">События, которые объединяют, вдохновляют и остаются в памяти навсегда.</p>
+        <ul data-anim="dissolve" data-d="280" style="margin:clamp(16px,2.2vw,24px) 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:clamp(14px,1.4vw,15px);line-height:1.6;color:#4B5A4F;max-width:40ch">
+          <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.8em"></span><span>Интеллигентный юмор без пошлых конкурсов и навязчивости.</span></li>
+          <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.8em"></span><span>Актерское мастерство &amp; Голос: умение держать внимание любого зала.</span></li>
+          <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.8em"></span><span>Легкость и теплота: пространство, где каждый гость чувствует себя важным.</span></li>
+        </ul>
+        <a href="#contacts" data-hero-cta data-anim="dissolve" data-d="320" style="display:inline-flex;align-items:center;gap:clamp(20px,3vw,40px);margin:clamp(26px,3.4vw,42px) 0 0;padding:clamp(15px,1.8vw,20px) clamp(22px,2.6vw,32px);border:1px solid #C7AC7C;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#7A6743;transition:background 400ms ease,color 400ms ease" style-hover="background:#C7AC7C;color:#FBFAF6">Узнать, свободна ли ваша дата <span style="font-size:14px">&#8594;</span></a>
+      </div>
+    </div>
+
+    <svg viewBox="0 0 1440 130" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(64px,9vw,132px);z-index:2;pointer-events:none;display:block" fill="none">
+      <path d="M0 62C232 6 512 0 758 50C1004 100 1244 112 1440 72V131H0V62Z" fill="#F4F2EC"/>
+      <path d="M0 62C232 6 512 0 758 50C1004 100 1244 112 1440 72L1440 73C1244 113 1004 105 757 65C512 15 232 21 0 82Z" fill="#E3DCC9"/>
+    </svg>
+  </div>
+
+  <div id="about" style="padding:clamp(30px,5vw,64px) clamp(20px,5vw,56px) clamp(70px,10vw,130px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:720px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(26px,3.4vw,40px)">Обо мне</div>
+      <p data-anim="dissolve" data-d="120" style="margin:0 0 clamp(18px,2.4vw,26px);font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(21px,2.6vw,29px);line-height:1.5;letter-spacing:.02em;text-wrap:pretty">Привет! Я — Ирина, и моя главная задача — сделать так, чтобы вы отдыхали на собственном празднике.</p>
+      <p data-anim="dissolve" data-d="220" style="margin:0 auto;max-width:56ch;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:clamp(15px,1.7vw,17px);line-height:1.85;color:#4B5A4F;text-wrap:pretty">За моими плечами — актерское образование, профессиональная работа со звуком, телом и эмоциональными состояниями. Я тонко чувствую настроение зала, умею направлять фокус внимания и создавать атмосферу, в которой нет напряжения, паузы естественны, а смех искренен.</p>
+      <div data-anim="dissolve" data-d="300" style="margin:clamp(30px,4vw,46px) auto 0;width:clamp(40px,8vw,70px);height:1px;background:#C7AC7C"></div>
+      <p data-anim="dissolve" data-d="360" style="margin:clamp(26px,3.4vw,38px) auto 0;max-width:40ch;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(20px,2.3vw,26px);line-height:1.5;color:#2F3A33;text-wrap:pretty">«Я не просто „веду программу“ по сценарию. Я создаю живой объемный праздник, где раскрываются истории людей, звучат важные слова и рождается настоящая магия момента».</p>
+    </div>
+  </div>
+
+  <div id="services" style="padding:0 clamp(20px,5vw,56px) clamp(70px,10vw,130px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:1000px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(18px,2.4vw,26px)">Форматы событий</div>
+      <h2 data-anim="dissolve" data-d="80" style="margin:0 0 clamp(34px,4.6vw,56px);font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(28px,3.6vw,42px);line-height:1.18;letter-spacing:.01em">С каким событием я могу вам помочь</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(30px,4vw,48px) clamp(28px,5vw,64px);text-align:left">
+        <div data-anim="dissolve" data-d="100" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">01</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Современные свадьбы</span>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.7;color:#4B5A4F">
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Трогательные, стильные и веселые вечера без устаревших традиций.</span></li>
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Персонализированная история вашей пары, встроенная в программу.</span></li>
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Забота об объективном комфорте ваших родителей и друзей.</span></li>
+          </ul>
+        </div>
+        <div data-anim="dissolve" data-d="180" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">02</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Юбилеи &amp; семейные торжества</span>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.7;color:#4B5A4F">
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Теплые и душевные встречи, где соединяются поколения.</span></li>
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Искренние тосты, легкая интерактивная программа и уважение к каждому гостю.</span></li>
+          </ul>
+        </div>
+        <div data-anim="dissolve" data-d="260" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">03</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Корпоративные события &amp; гала-ужины</span>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.7;color:#4B5A4F">
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Грамотное сочетание официального статуса компании и непринужденного отдыха.</span></li>
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Командообразование через юмор, эстетику и легкие интерактивы.</span></li>
+          </ul>
+        </div>
+        <div data-anim="dissolve" data-d="340" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">04</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Камерные вечера, ретриты &amp; презентации</span>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.7;color:#4B5A4F">
+            <li style="display:flex;gap:12px"><span style="flex:0 0 12px;height:1px;background:#C7AC7C;margin-top:.85em"></span><span>Особые события, где важны атмосфера, голос, темпоритм и эстетика подачи.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="principles" style="padding:0 clamp(20px,5vw,56px) clamp(70px,10vw,130px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:1000px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(18px,2.4vw,26px)">Почему со мной комфортно</div>
+      <h2 data-anim="dissolve" data-d="80" style="margin:0 0 clamp(34px,4.6vw,56px);font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(28px,3.6vw,42px);line-height:1.18;letter-spacing:.01em">4 столпа идеального праздника со мной</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(30px,4vw,48px) clamp(28px,5vw,64px);text-align:left">
+        <div data-anim="dissolve" data-d="100" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">01</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Профессиональная сцена и голос</span>
+          <p style="margin:0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.8;color:#4B5A4F;text-wrap:pretty">Благодаря актерскому бэкграунду я безупречно владею микрофоном, чувствую тайминг, умею импровизировать в любых нестандартных ситуациях и держу внимание 100+ человек без надрыва и крика.</p>
+        </div>
+        <div data-anim="dissolve" data-d="180" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">02</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Чувство такта и эмпатия</span>
+          <p style="margin:0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.8;color:#4B5A4F;text-wrap:pretty">Никаких заставляний «выйти в центр зала», неловких шуток или пошлых конкурсов. Я создаю условия, при которых люди сами хотят проявляться и радоваться.</p>
+        </div>
+        <div data-anim="dissolve" data-d="260" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">03</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Авторский сценарий «Про Вас»</span>
+          <p style="margin:0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.8;color:#4B5A4F;text-wrap:pretty">Я не работаю по шаблонам из интернета. Мы собираем программу как конструктор: из ваших любимых шуток, воспоминаний, историй и предпочтений ваших гостей.</p>
+        </div>
+        <div data-anim="dissolve" data-d="340" style="border-top:1px solid #C3CBBF;padding-top:clamp(22px,2.8vw,30px);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">04</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(23px,2.6vw,28px);line-height:1.2">Полная поддержка до и во время события</span>
+          <p style="margin:0;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:15px;line-height:1.8;color:#4B5A4F;text-wrap:pretty">Я на связи с вами на всех этапах подготовки, связываюсь с координатором и диджеем, помогаю решить организационные вопросы, чтобы в день X вы просто наслаждались вечером.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="padding:0 clamp(20px,5vw,56px) clamp(70px,10vw,130px);color:#2F3A33;text-align:center">
+    <div style="max-width:900px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(30px,4vw,48px)">Как мы работаем</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div data-anim="dissolve" data-d="100" style="display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:clamp(12px,2.4vw,28px);text-align:left;border-top:1px solid #C3CBBF;padding:clamp(22px,2.8vw,30px) 0">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">01</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(22px,2.8vw,30px);letter-spacing:.02em">Знакомимся и обсуждаем праздник</span>
+        </div>
+        <div data-anim="dissolve" data-d="180" style="display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:clamp(12px,2.4vw,28px);text-align:left;border-top:1px solid #C3CBBF;padding:clamp(22px,2.8vw,30px) 0">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">02</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(22px,2.8vw,30px);letter-spacing:.02em">Собираю сценарий и согласую с вами</span>
+        </div>
+        <div data-anim="dissolve" data-d="260" style="display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:clamp(12px,2.4vw,28px);text-align:left;border-top:1px solid #C3CBBF;padding:clamp(22px,2.8vw,30px) 0">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">03</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(22px,2.8vw,30px);letter-spacing:.02em">Готовимся: площадка, звук, тайминг</span>
+        </div>
+        <div data-anim="dissolve" data-d="340" style="display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:clamp(12px,2.4vw,28px);text-align:left;border-top:1px solid #C3CBBF;border-bottom:1px solid #C3CBBF;padding:clamp(22px,2.8vw,30px) 0">
+          <span style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.3em;color:#B08D57">04</span>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(22px,2.8vw,30px);letter-spacing:.02em">Провожу вечер — вы просто празднуете</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="gallery" style="padding:0 clamp(20px,5vw,56px) clamp(70px,10vw,130px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:1120px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(28px,3.6vw,44px)">Галерея</div>
+      <div data-gallery-grid style="--gg:clamp(10px,1.6vw,18px);display:flex;flex-wrap:wrap;justify-content:center;gap:var(--gg);align-items:flex-start">
+        <a href="./images/g1.jpg" style="display:block;overflow:hidden" data-anim="dissolve" data-d="60">
+          <img src="./images/g1.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g2.jpg" style="display:block;overflow:hidden" data-anim="dissolve" data-d="110">
+          <img src="./images/g2.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g3.jpg" style="display:block;overflow:hidden" data-anim="dissolve" data-d="160">
+          <img src="./images/g3.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g4.jpg" style="display:block;overflow:hidden" data-anim="dissolve" data-d="210">
+          <img src="./images/g4.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g5.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="260">
+          <img src="./images/g5.jpg" alt="Ирина Волгина" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g7-new.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="360">
+          <img src="./images/g7-new.jpg" alt="Новогодний праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g8.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="410">
+          <img src="./images/g8.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g9.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="460">
+          <img src="./images/g9.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g10.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="510">
+          <img src="./images/g10.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g11.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="560">
+          <img src="./images/g11.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g12.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="610">
+          <img src="./images/g12.jpg" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g13.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="660">
+          <img src="./images/g13.webp" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g14.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="710">
+          <img src="./images/g14.webp" alt="Свадьба" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g15.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="760">
+          <img src="./images/g15.webp" alt="Свадьба" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g16.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="810">
+          <img src="./images/g16.webp" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g17.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="860">
+          <img src="./images/g17.webp" alt="Праздник" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g18.webp" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="910">
+          <img src="./images/g18.webp" alt="Свадьба" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g19.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="960">
+          <img src="./images/g19.jpg" alt="Снегурочка и Дед Мороз" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g20.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="1010">
+          <img src="./images/g20.jpg" alt="Баба-Яга на новогоднем празднике" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+        <a href="./images/g21.jpg" data-gallery-extra data-expanded="{{ galleryExpanded }}" style="display:block;overflow:hidden" data-anim="dissolve" data-d="1060">
+          <img src="./images/g21.jpg" alt="Ирина Волгина в банкетном зале" loading="lazy" decoding="async" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 900ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:scale(1.04)">
+        </a>
+      </div>
+      <button data-gallery-more onClick="{{ showMorePhotos }}" style="display:{{ moreBtnDisplay }};margin-top:clamp(20px,3vw,28px);font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#2F3A33;background:transparent;border:1px solid #C3CBBF;padding:14px clamp(24px,4vw,34px);cursor:pointer">Смотреть ещё</button>
+      <button data-gallery-more onClick="{{ hidePhotos }}" style="display:{{ hideBtnDisplay }};margin-top:clamp(20px,3vw,28px);font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#2F3A33;background:transparent;border:1px solid #C3CBBF;padding:14px clamp(24px,4vw,34px);cursor:pointer">Скрыть</button>
+    </div>
+  </div>
+
+  <div id="reviews" style="padding:0 clamp(20px,5vw,56px) clamp(40px,6vw,70px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:1120px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(18px,2.4vw,26px)">Отзывы</div>
+      <h2 data-anim="dissolve" data-d="80" style="margin:0 0 clamp(16px,2.2vw,20px);font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(28px,3.6vw,42px);line-height:1.18;letter-spacing:.01em">Слова тех, кто был<br>на моих праздниках</h2>
+
+      <div data-reviews-desktop data-review-group data-anim="dissolve" data-d="220" style="position:relative;height:clamp(560px,64vw,690px);max-width:960px;margin:0 auto clamp(20px,3vw,30px);display:flex;justify-content:space-between;align-items:flex-start">
+
+        <div data-review-card style="position:relative;margin-top:clamp(46px,5.6vw,66px);flex:0 0 clamp(180px,20vw,220px);z-index:1">
+          <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(-4deg);transition:transform 450ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:rotate(0deg) scale(1.045)">
+            <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(17px,1.8vw,20px);color:#2F3A33">«Ты лучшая»</div>
+            <div onClick="{{ openReviewTG }}" style="display:block;width:100%;background:#FBFAF6;padding:8px;box-shadow:0 20px 46px -22px rgba(47,58,51,.4);cursor:zoom-in">
+              <img src="./images/review-telegram.jpg" alt="Отзыв в Telegram" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+            </div>
+            <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#5D6B60">Наталья</div>
+          </div>
+        </div>
+
+
+        <div data-review-card style="position:relative;flex:0 0 clamp(185px,22vw,235px);z-index:2">
+          <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(-1deg);transition:transform 450ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:rotate(0deg) scale(1.035)">
+            <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(19px,2vw,22px);color:#2F3A33">«Гости в восторге»</div>
+            <div onClick="{{ openReviewWA }}" style="display:block;width:100%;background:#FBFAF6;padding:8px;box-shadow:0 24px 54px -22px rgba(47,58,51,.42);cursor:zoom-in">
+              <img src="./images/review-whatsapp.jpg" alt="Отзыв в WhatsApp" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+            </div>
+            <div style="margin-top:16px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#5D6B60">Семья Литвиновых</div>
+          </div>
+        </div>
+
+        <div data-review-card style="position:relative;flex:0 0 clamp(185px,22vw,235px);z-index:2">
+          <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(1deg);transition:transform 450ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:rotate(0deg) scale(1.04)">
+            <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(17px,1.8vw,20px);color:#2F3A33">«Было очень весело»</div>
+            <div onClick="{{ openReviewKR }}" style="display:block;width:100%;background:#FBFAF6;padding:8px;box-shadow:0 22px 50px -22px rgba(47,58,51,.42);cursor:zoom-in">
+              <img src="./images/review-kristina.jpg" alt="Отзыв Кристины о юбилее" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+            </div>
+            <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#5D6B60">Кристина</div>
+          </div>
+        </div>
+
+
+        <div data-review-card style="position:relative;margin-top:clamp(46px,5.6vw,66px);flex:0 0 clamp(180px,20vw,220px);z-index:1">
+          <div style="display:flex;flex-direction:column;align-items:center;transform:rotate(4deg);transition:transform 450ms cubic-bezier(.2,.6,.2,1)" style-hover="transform:rotate(0deg) scale(1.045)">
+            <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(17px,1.8vw,20px);color:#2F3A33">«Мастер своего дела»</div>
+            <div onClick="{{ openReviewIG }}" style="display:block;width:100%;background:#FBFAF6;padding:8px;box-shadow:0 20px 46px -22px rgba(47,58,51,.4);cursor:zoom-in">
+              <img src="./images/review-instagram.jpg" alt="Отзыв в Instagram" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+            </div>
+            <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#5D6B60">Катя</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div data-reviews-mobile data-anim="dissolve" data-d="220" style="position:relative;max-width:400px;margin:0 auto">
+        <div style="overflow:hidden">
+          <div onTouchStart="{{ onTouchStart }}" onTouchMove="{{ onTouchMove }}" onTouchEnd="{{ onTouchEnd }}" style="display:flex;transition:transform 420ms cubic-bezier(.2,.6,.2,1);transform:{{ mobileTrackTransform }}">
+            <div style="flex:0 0 100%;padding:0 5%">
+              <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(18px,4.6vw,21px);color:#2F3A33;transform:rotate(-2deg)">«Ты лучшая»</div>
+              <div style="transform:rotate(-2deg)">
+                <div onClick="{{ openReviewTG }}" style="display:block;background:#FBFAF6;padding:8px;box-shadow:0 18px 40px -20px rgba(47,58,51,.4);cursor:zoom-in">
+                  <img src="./images/review-telegram.jpg" alt="Отзыв в Telegram" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+              <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5D6B60">Наталья</div>
+            </div>
+            <div style="flex:0 0 100%;padding:0 5%">
+              <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(18px,4.6vw,21px);color:#2F3A33;transform:rotate(1deg)">«Гости в восторге»</div>
+              <div style="transform:rotate(1deg)">
+                <div onClick="{{ openReviewWA }}" style="display:block;background:#FBFAF6;padding:8px;box-shadow:0 18px 40px -20px rgba(47,58,51,.4);cursor:zoom-in">
+                  <img src="./images/review-whatsapp.jpg" alt="Отзыв в WhatsApp" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+              <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5D6B60">Семья Литвиновых</div>
+            </div>
+            <div style="flex:0 0 100%;padding:0 5%">
+              <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(18px,4.6vw,21px);color:#2F3A33;transform:rotate(-1deg)">«Было очень весело»</div>
+              <div style="transform:rotate(-1deg)">
+                <div onClick="{{ openReviewKR }}" style="display:block;background:#FBFAF6;padding:8px;box-shadow:0 18px 40px -20px rgba(47,58,51,.4);cursor:zoom-in">
+                  <img src="./images/review-kristina.jpg" alt="Отзыв Кристины о юбилее" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+              <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5D6B60">Кристина</div>
+            </div>
+            <div style="flex:0 0 100%;padding:0 5%">
+              <div style="margin-bottom:12px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:clamp(18px,4.6vw,21px);color:#2F3A33;transform:rotate(-2deg)">«Мастер своего дела»</div>
+              <div style="transform:rotate(-2deg)">
+                <div onClick="{{ openReviewIG }}" style="display:block;background:#FBFAF6;padding:8px;box-shadow:0 18px 40px -20px rgba(47,58,51,.4);cursor:zoom-in">
+                  <img src="./images/review-instagram.jpg" alt="Отзыв в Instagram" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+                </div>
+              </div>
+              <div style="margin-top:14px;text-align:center;font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5D6B60">Катя</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:26px;margin-top:22px">
+          <button onClick="{{ prevReview }}" aria-label="Предыдущий отзыв" style="background:none;border:none;padding:6px;cursor:pointer;color:#2F3A33;font-size:16px;line-height:1">&#8592;</button>
+          <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;letter-spacing:.06em;color:#8A9385">{{ reviewCounter }}</span>
+          <button onClick="{{ nextReview }}" aria-label="Следующий отзыв" style="background:none;border:none;padding:6px;cursor:pointer;color:#2F3A33;font-size:16px;line-height:1">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contacts" style="padding:0 clamp(20px,5vw,56px) clamp(80px,12vw,160px);color:#2F3A33;text-align:center;scroll-margin-top:clamp(96px,12vw,150px)">
+    <div style="max-width:720px;margin:0 auto">
+      <div data-anim="dissolve" data-d="0" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#B08D57;margin-bottom:clamp(22px,3vw,32px)">Связаться</div>
+      <a data-anim="dissolve" data-d="100" href="tel:+70000000000" style="display:block;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(30px,5vw,52px);letter-spacing:.04em;margin-bottom:clamp(24px,3.4vw,36px)">+7 000 000-00-00</a>
+      <div data-anim="dissolve" data-d="200" style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(14px,2.4vw,22px)">
+        <a href="https://max.ru/u/f9LHodD0cOLU977xbkszW-Xg9deLphXwVSyAkNBXWOyjkwyyzWrtHyUWFts" target="_blank" rel="noopener" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#2F3A33;border:1px solid #C3CBBF;padding:14px clamp(20px,3vw,30px);transition:background 400ms ease,border-color 400ms ease" style-hover="background:#E3E6DE;border-color:#B08D57">MAX</a>
+        <a href="https://vk.com/volgina0401" target="_blank" rel="noopener" style="font-family:Jost,Helvetica,sans-serif;font-weight:300;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#2F3A33;border:1px solid #C3CBBF;padding:14px clamp(20px,3vw,30px);transition:background 400ms ease,border-color 400ms ease" style-hover="background:#E3E6DE;border-color:#B08D57">ВКонтакте</a>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ lightboxOpen }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(47,58,51,.92);padding:24px">
+      <img src="{{ lightboxSrc }}" alt="" style="max-width:min(92vw,760px);max-height:88vh;width:auto;height:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)">
+      <button onClick="{{ closeLightbox }}" aria-label="Закрыть" style="position:absolute;top:20px;right:24px;background:none;border:none;color:#F4F2EC;font-size:30px;line-height:1;cursor:pointer;font-family:Jost,sans-serif;font-weight:300">&times;</button>
+    </div>
+  </sc-if>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lineInset&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:60,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Боковые линии&quot;}}">
+class Component extends DCLogic {
+  state = { navOpen: false, showAllPhotos: false, pastHero: false, activeSection: 'top', activeIndex: 0, lightbox: null };
+  navSections = ['about', 'services', 'prices', 'gallery', 'reviews'];
+  syncInset() {
+    const v = this.props.lineInset;
+    document.documentElement.style.setProperty('--line-inset', (v == null ? 4 : v) + 'px');
+  }
+  componentDidUpdate() { this.syncInset(); }
+  toggleNav = () => this.setState(s => ({ navOpen: !s.navOpen }));
+  closeNav = () => this.setState({ navOpen: false });
+  showMorePhotos = () => { this._galleryY = window.scrollY; this.setState({ showAllPhotos: true }); };
+  hidePhotos = () => this.setState({ showAllPhotos: false }, () => {
+    if (this._galleryY != null) window.scrollTo(0, this._galleryY);
+  });
+  prevReview = () => this.setState(s => ({ activeIndex: (s.activeIndex + 3) % 4 }));
+  nextReview = () => this.setState(s => ({ activeIndex: (s.activeIndex + 1) % 4 }));
+  openReview = src => e => { e.preventDefault(); this.setState({ lightbox: src }); };
+  onTouchStart = e => { this._touchX = e.touches[0].clientX; };
+  onTouchMove = e => { this._touchDelta = e.touches[0].clientX - this._touchX; };
+  onTouchEnd = () => {
+    if (this._touchDelta > 40) this.prevReview();
+    else if (this._touchDelta < -40) this.nextReview();
+    this._touchDelta = 0;
+  };
+  renderVals() {
+    return { navDropdownDisplay: this.state.navOpen ? 'flex' : 'none', toggleNav: this.toggleNav, closeNav: this.closeNav,
+      showMorePhotos: this.showMorePhotos, galleryExpanded: this.state.showAllPhotos ? 'yes' : 'no',
+      moreBtnDisplay: this.state.showAllPhotos ? 'none' : 'inline-block',
+      hidePhotos: this.hidePhotos,
+      lightboxSrc: this.state.lightbox || '',
+      lightboxOpen: !!this.state.lightbox,
+      closeLightbox: () => this.setState({ lightbox: null }),
+      activeIndex: this.state.activeIndex,
+      reviewCounter: `0${this.state.activeIndex + 1} / 04`,
+      mobileTrackTransform: `translateX(-${this.state.activeIndex * 100}%)`,
+      prevReview: this.prevReview, nextReview: this.nextReview,
+      onTouchStart: this.onTouchStart, onTouchMove: this.onTouchMove, onTouchEnd: this.onTouchEnd,
+      openReviewTG: this.openReview('./images/review-telegram.jpg'),
+      openReviewWA: this.openReview('./images/review-whatsapp.jpg'),
+      openReviewIG: this.openReview('./images/review-instagram.jpg'),
+      openReviewKR: this.openReview('./images/review-kristina.jpg'),
+      burgerTop: this.state.navOpen ? 'translateY(3px) rotate(45deg)' : 'none',
+      burgerBottom: this.state.navOpen ? 'translateY(-3px) rotate(-45deg)' : 'none',
+      hideBtnDisplay: this.state.showAllPhotos ? 'inline-block' : 'none',
+      logoOpacity: this.state.pastHero ? 1 : 0,
+      navColorAbout: this.state.activeSection === 'about' ? '#B08D57' : '#5D6B60',
+      navColorServices: this.state.activeSection === 'services' ? '#B08D57' : '#5D6B60',
+      navColorPrices: this.state.activeSection === 'prices' ? '#B08D57' : '#5D6B60',
+      navColorGallery: this.state.activeSection === 'gallery' ? '#B08D57' : '#5D6B60',
+      navColorReviews: this.state.activeSection === 'reviews' ? '#B08D57' : '#5D6B60' };
+  }
+  componentDidMount() {
+    this.syncInset();
+    const syncHdr = () => {
+      const h = document.querySelector('header');
+      if (h) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px');
+    };
+    syncHdr();
+    window.addEventListener('resize', syncHdr);
+    setTimeout(syncHdr, 400);
+    this._onHero = () => {
+      const hero = document.getElementById('top');
+      const past = hero ? window.scrollY > hero.offsetHeight * 0.55 : false;
+      if (past !== this.state.pastHero) this.setState({ pastHero: past });
+    };
+    window.addEventListener('scroll', this._onHero, { passive: true });
+    this._onHero();
+    this._onSpy = () => {
+      const y = window.scrollY + window.innerHeight * 0.3;
+      let current = 'top', best = -1;
+      for (const id of this.navSections) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= y && el.offsetTop > best) { best = el.offsetTop; current = id; }
+      }
+      if (current !== this.state.activeSection) this.setState({ activeSection: current });
+    };
+    window.addEventListener('scroll', this._onSpy, { passive: true });
+    this._onSpy();
+    window.addEventListener('keydown', e => { if (e.key === 'Escape' && this.state.lightbox) this.setState({ lightbox: null }); });
+    document.addEventListener('click', e => {
+      const img = e.target.closest && e.target.closest('a[href$=".jpg"], a[href$=".webp"]');
+      if (img) { e.preventDefault(); this.setState({ lightbox: img.getAttribute('href') }); return; }
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const el = document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;
+      e.preventDefault();
+      const offset = Math.min(150, Math.max(96, window.innerWidth * 0.12));
+      const from = window.scrollY;
+      const to = Math.max(0, from + el.getBoundingClientRect().top - offset);
+      const dur = 700, start = performance.now();
+      const step = now => {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo(0, from + (to - from) * eased);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes = Array.from(document.querySelectorAll('[data-anim]'));
+    if (reduce) {
+      nodes.forEach(n => { n.style.opacity = '1'; n.style.transform = 'none'; });
+      document.querySelectorAll('[data-count]').forEach(n => { n.textContent = Number(n.dataset.count).toLocaleString('ru-RU'); });
+      return;
+    }
+
+    nodes.forEach(n => {
+      n.style.opacity = '0';
+      n.style.transition = 'opacity 800ms ease';
+      if (n.dataset.anim === 'zoom' && n.firstElementChild) {
+        n.firstElementChild.style.transform = 'scale(1.07)';
+        n.firstElementChild.style.transition = 'transform 1400ms cubic-bezier(.2,.6,.2,1)';
+      }
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const n = e.target;
+        io.unobserve(n);
+        setTimeout(() => {
+          n.style.opacity = '1';
+          if (n.dataset.anim === 'zoom' && n.firstElementChild) n.firstElementChild.style.transform = 'scale(1)';
+        }, Number(n.dataset.d || 0));
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    nodes.forEach(n => io.observe(n));
+
+    const counters = Array.from(document.querySelectorAll('[data-count]'));
+    const countIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const n = e.target;
+        countIo.unobserve(n);
+        const target = Number(n.dataset.count);
+        const dur = 1100;
+        const start = performance.now();
+        const step = now => {
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          n.textContent = Math.round(target * eased).toLocaleString('ru-RU');
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.3 });
+    counters.forEach(n => countIo.observe(n));
+  }
+}
+
+</script>
+</body>
+</html>
