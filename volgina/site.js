@@ -104,3 +104,48 @@ if (galleryExtra && galleryToggle) {
     img.addEventListener('load', scheduleScrollEffects, { once: true });
   });
 }
+
+const reviewTrack = document.querySelector('.reviews-grid');
+if (reviewTrack) {
+  const cards = [...reviewTrack.querySelectorAll('.review-photo')];
+  const mobileReviews = window.matchMedia('(max-width: 760px)');
+  reviewTrack.id = 'review-track';
+  const controls = document.createElement('div');
+  controls.className = 'review-controls';
+  controls.setAttribute('aria-label', 'Перелистывание отзывов');
+  const arrow = direction => `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="${direction === 'prev' ? 'M19 12H5m7-7-7 7 7 7' : 'M5 12h14m-7-7 7 7-7 7'}" stroke="currentColor" stroke-width="1.2"/></svg>`;
+  controls.innerHTML = `<button class="review-step" type="button" data-direction="prev" aria-label="Предыдущий отзыв" aria-controls="review-track">${arrow('prev')}</button><div class="review-dots">${cards.map((_, i) => `<button type="button" class="review-dot" aria-label="Показать отзыв ${i + 1}" aria-controls="review-track"></button>`).join('')}</div><button class="review-step" type="button" data-direction="next" aria-label="Следующий отзыв" aria-controls="review-track">${arrow('next')}</button>`;
+  reviewTrack.after(controls);
+  const dots = [...controls.querySelectorAll('.review-dot')];
+  const previous = controls.querySelector('[data-direction="prev"]');
+  const next = controls.querySelector('[data-direction="next"]');
+  let activeReview = 0;
+  let scrollFrame = false;
+  function updateReviewControls() {
+    scrollFrame = false;
+    if (!mobileReviews.matches) return;
+    const center = reviewTrack.getBoundingClientRect().left + reviewTrack.clientWidth / 2;
+    let nearestDistance = Infinity;
+    cards.forEach((card, i) => {
+      const bounds = card.getBoundingClientRect();
+      const distance = Math.abs(bounds.left + bounds.width / 2 - center);
+      if (distance < nearestDistance) { nearestDistance = distance; activeReview = i; }
+    });
+    dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === activeReview)));
+    previous.disabled = activeReview === 0;
+    next.disabled = activeReview === cards.length - 1;
+  }
+  function goToReview(index) {
+    const card = cards[Math.max(0, Math.min(cards.length - 1, index))];
+    const distance = card.getBoundingClientRect().left + card.offsetWidth / 2 - reviewTrack.getBoundingClientRect().left - reviewTrack.clientWidth / 2;
+    reviewTrack.scrollTo({ left: reviewTrack.scrollLeft + distance, behavior: motionPreference.matches ? 'instant' : 'smooth' });
+  }
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goToReview(i)));
+  previous.addEventListener('click', () => goToReview(activeReview - 1));
+  next.addEventListener('click', () => goToReview(activeReview + 1));
+  reviewTrack.addEventListener('scroll', () => {
+    if (!scrollFrame) { scrollFrame = true; requestAnimationFrame(updateReviewControls); }
+  }, { passive: true });
+  window.addEventListener('resize', updateReviewControls);
+  updateReviewControls();
+}

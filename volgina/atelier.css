@@ -73,3 +73,21 @@ body:before{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;opa
 @media(max-width:1050px){.reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;max-width:760px;margin:auto}.gallery-extra{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.gallery-extra{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:0}.review-card.review-photo{padding:5px}.review-card.review-photo:nth-child(even){margin-top:18px}.gallery-actions{margin-top:25px}}
 @media(max-width:520px){.reviews-grid{grid-template-columns:1fr;max-width:350px;gap:30px}.review-card.review-photo:nth-child(even){margin-top:0}}
+/* Native touch scrolling keeps vertical page gestures and image links intact. */
+.review-controls{display:none}
+@media(max-width:760px){
+  .reviews-grid{display:flex;position:relative;flex-wrap:nowrap;align-items:flex-start;gap:18px;width:100%;max-width:none;overflow-x:auto;overflow-y:hidden;padding:12px 5% 28px;scroll-snap-type:x mandatory;scroll-padding-inline:5%;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .reviews-grid::-webkit-scrollbar{display:none}
+  .reviews-grid .review-card.review-photo:nth-child(n){flex:0 0 92%;max-width:360px;margin:0;transform:none;rotate:none;scroll-snap-align:center;scroll-snap-stop:always;box-shadow:0 8px 20px #483b2112;opacity:1;translate:none}
+  .review-controls{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:4px}
+  .review-controls[hidden]{display:none}
+  .review-step{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--gold);border-radius:50%;background:transparent;color:var(--gold);cursor:pointer;transition:opacity .25s,background .25s}
+  .review-step:disabled{opacity:.3;cursor:default}.review-step:not(:disabled):hover{background:#e9e0ce}
+  .review-step svg{width:19px;height:19px}
+  .review-dots{display:flex;gap:0}
+  .review-dot{border:0;background:transparent;padding:0;width:30px;height:44px;display:grid;place-items:center;cursor:pointer}
+  .review-dot:before{content:"";height:5px;width:5px;background:#beae90;border-radius:50%;transition:width .3s,background .3s}
+  .review-dot[aria-current=true]:before{width:18px;border-radius:5px;background:var(--gold)}
+  .review-hint{margin-top:20px}
+}
+@media(prefers-reduced-motion:reduce){.reviews-grid{scroll-behavior:auto}}
