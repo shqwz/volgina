@@ -237,6 +237,7 @@ function rebuildJourney() {
   const about = box('.about'), formats = box('.formats'), comfort = box('.comfort');
   const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
   const finalButton = box('.contacts .button');
+  const signature = box('.signature');
   const x = fraction => width * fraction;
   const y = (r, fraction) => r.y + r.h * fraction;
   const p = (a,b) => `${a.toFixed(1)} ${b.toFixed(1)}`;
@@ -244,9 +245,11 @@ function rebuildJourney() {
   if (!mobile) {
     d += ` C ${p(x(.72),y(hero,.94))} ${p(x(.38),cta.y-35)} ${p(cta.x+cta.w,cta.y+cta.h*.5)}`;
     d += ` C ${p(x(.23),y(hero,.88))} ${p(x(.23),y(hero,.98))} ${p(x(.72),about.y+90)}`;
-    d += ` C ${p(x(1.04),about.y+170)} ${p(x(1.01),y(about,.69))} ${p(x(.88),y(about,.7))}`;
-    d += ` C ${p(x(.82),y(about,.79))} ${p(x(.66),y(about,.68))} ${p(x(.73),y(about,.68))}`;
-    d += ` C ${p(x(.9),y(about,.68))} ${p(x(.52),y(about,.89))} ${p(x(.1),y(about,.93))}`;
+    // The cable becomes the flourish of Irina's signature, rather than circling the facts.
+    d += ` C ${p(x(1.04),about.y+170)} ${p(x(1.01),signature.y+signature.h*.75)} ${p(signature.x+signature.w,signature.y+signature.h*.65)}`;
+    d += ` C ${p(signature.x+signature.w+65,signature.y+signature.h*.1)} ${p(signature.x+signature.w*.65,signature.y+signature.h*.9)} ${p(signature.x+signature.w*.45,signature.y+signature.h*.72)}`;
+    d += ` C ${p(signature.x+signature.w*.3,signature.y+signature.h*.55)} ${p(signature.x+signature.w*.12,signature.y+signature.h*.48)} ${p(signature.x,signature.y+signature.h*.68)}`;
+    d += ` C ${p(signature.x-100,signature.y+signature.h)} ${p(x(.3),y(about,.93))} ${p(x(.1),y(about,.93))}`;
     d += ` C ${p(x(-.05),about.y+about.h)} ${p(x(.92),formats.y-5)} ${p(x(.95),formats.y+185)}`;
     d += ` C ${p(x(1.06),y(formats,.52))} ${p(x(.64),y(formats,.58))} ${p(x(.57),y(formats,.55))}`;
     d += ` C ${p(x(.48),y(formats,.52))} ${p(x(.32),y(formats,.54))} ${p(x(.12),y(formats,.65))}`;
@@ -266,7 +269,9 @@ function rebuildJourney() {
   } else {
     d += ` C ${p(x(.96),y(hero,.7))} ${p(x(.9),cta.y+cta.h+4)} ${p(x(.025),cta.y+cta.h+4)}`;
     d += ` C ${p(x(.015),cta.y+cta.h+100)} ${p(x(.015),about.y+150)} ${p(x(.04),about.y+205)}`;
-    d += ` C ${p(x(1.07),y(about,.58))} ${p(x(.9),y(about,.83))} ${p(x(.88),about.y+about.h-10)}`;
+    d += ` C ${p(x(.02),signature.y+signature.h)} ${p(signature.x-50,signature.y+signature.h*.8)} ${p(signature.x,signature.y+signature.h*.65)}`;
+    d += ` C ${p(signature.x+signature.w*.3,signature.y+signature.h*.5)} ${p(signature.x+signature.w*.7,signature.y+signature.h*.8)} ${p(signature.x+signature.w,signature.y+signature.h*.55)}`;
+    d += ` C ${p(x(1.07),signature.y+signature.h*.15)} ${p(x(.95),y(about,.83))} ${p(x(.88),about.y+about.h-10)}`;
     d += ` C ${p(x(.93),formats.y+35)} ${p(x(.05),formats.y-20)} ${p(x(.05),formats.y+250)}`;
     d += ` C ${p(x(-.04),y(formats,.48))} ${p(x(1.09),y(formats,.44))} ${p(x(.96),y(formats,.74))}`;
     d += ` C ${p(x(.86),formats.y+formats.h)} ${p(x(.02),comfort.y-10)} ${p(x(.02),comfort.y+125)}`;
