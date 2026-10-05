@@ -249,52 +249,6 @@ function rebuildTextClearance() {
   textClearance.setAttribute('height',main.scrollHeight);
   textClearance.replaceChildren(...cutouts);
 }
-document.querySelector('main').addEventListener('transitionend',event => {
-  if(event.propertyName==='transform' && event.target.classList.contains('reveal')) scheduleTextClearance();
-});
-let clearanceFrame = false;
-function scheduleTextClearance() {
-  if (clearanceFrame) return;
-  clearanceFrame = true;
-  requestAnimationFrame(() => { clearanceFrame = false; rebuildTextClearance(); });
-}
-// Sample each cubic directly. Repeated SVG getPointAtLength walks the entire
-// growing path hundreds of times; this calculation is linear in segment count.
-function sampleCable(data, actualLength) {
-  const tokens = data.match(/[MCL]|-?\d+(?:\.\d+)?/g);
-  const samples = [];
-  let cursor = 0, x = 0, y = 0, length = 0;
-  function append(nx, ny) {
-    length += Math.hypot(nx-x, ny-y);
-    x = nx; y = ny;
-    samples.push({length, y});
-  }
-  while (cursor < tokens.length) {
-    const command = tokens[cursor++];
-    if (command === 'M') {
-      x = Number(tokens[cursor++]); y = Number(tokens[cursor++]);
-      samples.push({length, y});
-    } else if (command === 'L') {
-      append(Number(tokens[cursor++]), Number(tokens[cursor++]));
-    } else if (command === 'C') {
-      const a = tokens.slice(cursor, cursor+6).map(Number); cursor += 6;
-      const sx = x, sy = y;
-      for (let step = 1; step <= 32; step++) {
-        const t = step/32, u = 1-t;
-        append(u*u*u*sx+3*u*u*t*a[0]+3*u*t*t*a[2]+t*t*t*a[4],
-          u*u*u*sy+3*u*u*t*a[1]+3*u*t*t*a[3]+t*t*t*a[5]);
-      }
-    }
-  }
-  for (const sample of samples) sample.length *= actualLength/length;
-  return samples;
-}
-let signatureOffset = 0;
-let signatureLength = 0;
-let journeyLength = 0;
-let journeySamples = [];
-let journeyFrame = false;
-let journeyRevealedEdge = 0;
 function rebuildJourney() {
   const main = document.querySelector('main');
   const origin = main.getBoundingClientRect();
@@ -335,7 +289,6 @@ function rebuildJourney() {
   const point = ([a,b]) => [signature.x+a*signature.w/380, signature.y+b*signature.h/160];
   const signatureStart = point([0,104]);
   const signatureEnd = point([380,104]);
-  let signaturePrefix = '';
   let signatureData = '';
   function writeSignature(reverse=false) {
     let start=[0,104];
@@ -345,7 +298,6 @@ function rebuildJourney() {
       const points=reverse?[b,a,start]:[a,b,end];
       return ` C ${points.map(v=>p(...point(v))).join(' ')}`;
     }).join('');
-    signaturePrefix = d;
     signatureData = `M ${p(...(reverse ? signatureEnd : signatureStart))}${strokes}`;
     return strokes;
   }
@@ -399,36 +351,10 @@ function rebuildJourney() {
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }
   journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
-  journeyPath.setAttribute('d', signaturePrefix);
-  signatureOffset = journeyPath.getTotalLength();
   signatureInk.setAttribute('d',signatureData);
-  signatureLength = signatureInk.getTotalLength();
-  signatureInk.style.strokeDasharray = signatureLength;
-  journeyPath.setAttribute('d', d);
-  journeyLength = journeyPath.getTotalLength();
-  journeySamples = sampleCable(d, journeyLength);
-  journeyPath.style.strokeDasharray = journeyLength;
+  journeyPath.setAttribute('d',d);
   rebuildTextClearance();
-  updateJourney();
 }
-function updateJourney() {
-  journeyFrame = false;
-  if (!journeyLength) return;
-  if (motionPreference.matches) {journeyPath.style.strokeDashoffset='0';signatureInk.style.strokeDashoffset='0';return;}
-  const main = document.querySelector('main');
-  const r = main.getBoundingClientRect();
-  const edge = innerHeight*.92-r.top;
-  journeyRevealedEdge = Math.max(journeyRevealedEdge, edge);
-  let visibleLength = 0;
-  for (const sample of journeySamples) {if(sample.y>journeyRevealedEdge)break;visibleLength=sample.length;}
-  journeyPath.style.strokeDashoffset = journeyLength-visibleLength;
-  signatureInk.style.strokeDashoffset = signatureLength-Math.max(0,Math.min(signatureLength,visibleLength-signatureOffset));
-}
-function scheduleJourney() {
-  if (!journeyFrame) {journeyFrame=true;requestAnimationFrame(updateJourney);}
-}
-addEventListener('scroll',scheduleJourney,{passive:true});
-motionPreference.addEventListener('change',updateJourney);
 let rebuildFrame = false;
 function scheduleJourneyRebuild() {
   if (rebuildFrame) return;

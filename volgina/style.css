@@ -104,3 +104,6 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .signature{font-family:var(--body)}
 
 .responsive-photo{display:contents}
+
+/* The complete cable and handwritten name are visible at startup. */
+.journey-path,.signature-ink{stroke-dasharray:none;stroke-dashoffset:0}

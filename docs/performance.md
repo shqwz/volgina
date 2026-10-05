@@ -29,3 +29,7 @@ Additional checks passed at 360, 390, 768 and 1440 pixels: text clearance around
 ## Current eager-loading verification
 
 At 390 and 1440 pixels, every main-page image decoded while `scrollY` remained zero, including the 17 initially hidden gallery images and all four reviews. There are no lazy images, deferred image sources or scroll-triggered text reveals. Gallery expansion and scrolling to the footer caused no additional image requests. All 21 gallery photographs remain accessible without JavaScript. Optimized media and cable calculations from the earlier release remain in place.
+
+## Fully visible cable
+
+The entire cable and handwritten name are visible immediately after initial layout. Scroll-driven dash offsets, curve sampling and animation listeners have been removed. The path is rebuilt only for layout changes, gallery expansion and font/image loading, retaining text clearance and responsive geometry.
