@@ -439,13 +439,30 @@ new ResizeObserver(rebuildJourney).observe(document.querySelector('main'));
 document.fonts.ready.then(rebuildJourney);
 addEventListener('load',rebuildJourney,{once:true});
 
-// The contact choices unfold beneath the original call-to-action.
+// The original label gives way to two links inside the same button-shaped control.
+const contactControl = document.querySelector('.contact-control');
 const contactToggle = document.querySelector('.contact-toggle');
 const contactOptions = document.querySelector('.contact-options');
 contactOptions.inert = true;
 contactToggle.addEventListener('click', () => {
-  const open = contactToggle.getAttribute('aria-expanded') !== 'true';
-  contactToggle.setAttribute('aria-expanded', String(open));
-  contactOptions.inert = !open;
-  contactOptions.classList.toggle('is-open',open);
+  contactToggle.setAttribute('aria-expanded','true');
+  contactControl.classList.add('is-open');
+  contactToggle.inert = true;
+  contactOptions.inert = false;
+  requestAnimationFrame(() => contactOptions.querySelector('a').focus({preventScroll:true}));
+});
+contactControl.addEventListener('keydown',event => {
+  if(event.key==='Escape') {
+    contactToggle.setAttribute('aria-expanded','false');
+    contactControl.classList.remove('is-open');
+    contactOptions.inert = true;
+    contactToggle.inert = false;
+    contactToggle.focus({preventScroll:true});
+  }
+});
+
+contactOptions.addEventListener('transitionend',event => {
+  if(event.target===contactOptions && event.propertyName==='opacity' && contactControl.classList.contains('is-open') && document.activeElement===document.body) {
+    contactOptions.querySelector('a').focus({preventScroll:true});
+  }
 });
