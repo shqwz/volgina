@@ -373,15 +373,13 @@ function rebuildJourney() {
     d += ` C ${p(x(.55),y(galleryBase,.54))} ${p(x(-.04),y(galleryBase,.28))} ${p(x(.04),y(galleryBase,.68))}`;
     d += ` C ${p(x(.09),galleryBase.y+galleryBase.h-20)} ${p(x(.81),galleryBase.y+galleryBase.h-30)} ${p(x(.88),galleryBase.y+galleryBase.h)}`;
     d += ` C ${p(x(.98),galleryBase.y+galleryBase.h+70)} ${p(x(.98),reviews.y+40)} ${p(x(.88),reviews.y+100)}`;
-    d += ` C ${p(x(1.04),reviews.y+170)} ${p(x(.96),reviews.y+245)} ${p(x(.89),reviews.y+260)}`;
-    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {x:r.left-origin.left+r.width*.5,y:r.top-origin.top-12};});
-    cards.reverse().forEach(card => {
-      // Equal arches and equal closed loops, drawn with identical local coordinates.
-      d += ` C ${p(card.x+110,card.y-28)} ${p(card.x+85,card.y-28)} ${p(card.x+65,card.y-18)}`;
-      d += ` C ${p(card.x+48,card.y-58)} ${p(card.x-20,card.y-58)} ${p(card.x-20,card.y-8)}`;
-      d += ` C ${p(card.x-30,card.y+14)} ${p(card.x-3,card.y+24)} ${p(card.x-2,card.y+2)}`;
-      d += ` C ${p(card.x,card.y-17)} ${p(card.x-20,card.y-22)} ${p(card.x-20,card.y-8)}`;
-      d += ` L ${p(card.x-20,card.y+14)}`;
+    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {left:r.left-origin.left,right:r.right-origin.left,y:r.top-origin.top};}).reverse();
+    d += ` C ${p(x(1.02),reviews.y+170)} ${p(cards[0].right+55,cards[0].y)} ${p(cards[0].right,cards[0].y)}`;
+    cards.forEach((card,index) => {
+      const span=card.right-card.left;
+      // Exactly one simple wave per photograph.
+      d += ` C ${p(card.right-span*.25,card.y-62)} ${p(card.left+span*.25,card.y-62)} ${p(card.left,card.y)}`;
+      if(index<cards.length-1) d += ` L ${p(cards[index+1].right,cards[index+1].y)}`;
     });
     d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.8),reviews.y+reviews.h+10)} ${p(x(.92),contacts.y+120)}`;
     d += ` C ${p(x(1.03),y(contacts,.6))} ${p(x(.98),finalButton.y+finalButton.h*.5)} ${p(x(.92),finalButton.y+finalButton.h*.5)}`;
