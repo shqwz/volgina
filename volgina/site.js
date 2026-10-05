@@ -224,6 +224,7 @@ const journeyPath = document.querySelector('.journey-path');
 let journeyLength = 0;
 let journeySamples = [];
 let journeyFrame = false;
+let journeyRevealedEdge = 0;
 function rebuildJourney() {
   const main = document.querySelector('main');
   const origin = main.getBoundingClientRect();
@@ -246,23 +247,24 @@ function rebuildJourney() {
   const p = (a,b) => `${a.toFixed(1)} ${b.toFixed(1)}`;
   // A handwritten, single-stroke Ирина. Each cubic joins the preceding one.
   const ink = [
-    [[30,82],[68,58],[82,16]], [[96,-8],[76,16],[68,43]],
-    [[56,82],[30,130],[45,132]], [[70,125],[121,45],[142,22]],
-    [[124,56],[100,111],[116,112]], [[132,108],[151,83],[159,73]],
-    [[151,101],[140,137],[130,158]], [[147,120],[164,69],[179,70]],
-    [[198,70],[181,103],[160,101]], [[179,98],[200,79],[209,73]],
-    [[201,87],[194,109],[204,104]], [[216,98],[228,77],[233,71]],
-    [[226,86],[219,108],[229,104]], [[240,99],[250,76],[254,71]],
-    [[245,92],[242,109],[249,103]], [[255,93],[266,87],[276,87]],
-    [[284,68],[280,80],[272,101]], [[285,95],[294,82],[302,80]],
-    [[322,62],[319,91],[302,103]], [[288,115],[296,87],[311,82]],
-    [[329,64],[322,90],[325,99]], [[332,113],[361,91],[380,91]]
+    [[28,92],[56,72],[70,40]], [[84,8],[84,12],[72,39]],
+    [[59,68],[38,110],[50,110]], [[72,110],[115,48],[136,28]],
+    [[122,58],[100,110],[117,110]], [[132,110],[148,87],[159,75]],
+    [[151,99],[140,132],[132,149]], [[147,117],[165,70],[180,73]],
+    [[198,78],[182,108],[161,108]], [[182,108],[198,88],[209,75]],
+    [[202,91],[194,110],[203,110]], [[214,110],[227,88],[235,75]],
+    [[228,92],[219,110],[229,110]], [[239,110],[252,86],[258,75]],
+    [[251,91],[244,108],[247,110]], [[251,97],[258,90],[275,90]],
+    [[279,78],[285,67],[281,77]], [[275,92],[267,110],[280,110]],
+    [[291,110],[297,83],[311,77]], [[331,66],[323,103],[302,110]],
+    [[286,113],[300,78],[317,77]], [[330,76],[321,105],[332,108]],
+    [[345,111],[365,104],[380,104]]
   ];
   const point = ([a,b]) => [signature.x+a*signature.w/380, signature.y+b*signature.h/160];
-  const signatureStart = point([0,94]);
-  const signatureEnd = point([380,91]);
+  const signatureStart = point([0,104]);
+  const signatureEnd = point([380,104]);
   function writeSignature(reverse=false) {
-    let start=[0,94];
+    let start=[0,104];
     const segments=ink.map(segment=>{const result={start,controls:segment};start=segment[2];return result;});
     if(reverse)segments.reverse();
     return segments.map(({start,controls:[a,b,end]})=>{
@@ -327,8 +329,9 @@ function updateJourney() {
   const main = document.querySelector('main');
   const r = main.getBoundingClientRect();
   const edge = innerHeight*.92-r.top;
+  journeyRevealedEdge = Math.max(journeyRevealedEdge, edge);
   let visibleLength = 0;
-  for (const sample of journeySamples) {if(sample.y>edge)break;visibleLength=sample.length;}
+  for (const sample of journeySamples) {if(sample.y>journeyRevealedEdge)break;visibleLength=sample.length;}
   journeyPath.style.strokeDashoffset = journeyLength-visibleLength;
 }
 function scheduleJourney() {
