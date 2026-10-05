@@ -96,3 +96,5 @@ img[data-src]{display:none}.js img[data-src]{display:block}
 .contact-options a:hover{background:#ffffff12}
 .contact-phone{display:block;width:max-content;margin:12px auto 6px;font-size:22px;line-height:1.5;white-space:nowrap;position:relative;z-index:6}
 @media(max-width:760px){.contact-control{width:85%;height:54px;margin:28px auto 12px}.contact-phone{font-size:20px}}
+
+.format-card:nth-child(4)>img{object-position:50% 38%}
