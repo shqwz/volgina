@@ -221,6 +221,13 @@ if (reviewTrack) {
 // A single responsive cable connects the whole evening. Rebuild after gallery expansion.
 const journeySvg = document.querySelector('.journey-line');
 const journeyPath = document.querySelector('.journey-path');
+// A slightly fuller pen stroke follows the same cable geometry through the name.
+const signatureInk = document.createElementNS('http://www.w3.org/2000/svg','path');
+signatureInk.setAttribute('class','signature-ink');
+signatureInk.setAttribute('fill','none');
+journeySvg.append(signatureInk);
+let signatureOffset = 0;
+let signatureLength = 0;
 let journeyLength = 0;
 let journeySamples = [];
 let journeyFrame = false;
@@ -247,30 +254,35 @@ function rebuildJourney() {
   const p = (a,b) => `${a.toFixed(1)} ${b.toFixed(1)}`;
   // A handwritten, single-stroke Ирина. Each cubic joins the preceding one.
   const ink = [
-    [[28,92],[56,72],[70,40]], [[84,8],[84,12],[72,39]],
-    [[59,68],[38,110],[50,110]], [[72,110],[115,48],[136,28]],
-    [[122,58],[100,110],[117,110]], [[132,110],[148,87],[159,75]],
+    [[30,91],[67,63],[79,29]], [[94,-4],[92,3],[80,31]],
+    [[68,65],[39,120],[52,118]], [[73,118],[121,45],[145,20]],
+    [[128,51],[103,112],[118,110]], [[133,108],[149,86],[159,75]],
     [[151,99],[140,132],[132,149]], [[147,117],[165,70],[180,73]],
-    [[198,78],[182,108],[161,108]], [[182,108],[198,88],[209,75]],
+    [[198,74],[187,105],[163,107]], [[181,108],[199,89],[209,75]],
     [[202,91],[194,110],[203,110]], [[214,110],[227,88],[235,75]],
     [[228,92],[219,110],[229,110]], [[239,110],[252,86],[258,75]],
     [[251,91],[244,108],[247,110]], [[251,97],[258,90],[275,90]],
     [[279,78],[285,67],[281,77]], [[275,92],[267,110],[280,110]],
-    [[291,110],[297,83],[311,77]], [[331,66],[323,103],[302,110]],
+    [[290,107],[298,81],[313,76]], [[332,65],[321,104],[303,109]],
     [[286,113],[300,78],[317,77]], [[330,76],[321,105],[332,108]],
     [[345,111],[365,104],[380,104]]
   ];
   const point = ([a,b]) => [signature.x+a*signature.w/380, signature.y+b*signature.h/160];
   const signatureStart = point([0,104]);
   const signatureEnd = point([380,104]);
+  let signaturePrefix = '';
+  let signatureData = '';
   function writeSignature(reverse=false) {
     let start=[0,104];
     const segments=ink.map(segment=>{const result={start,controls:segment};start=segment[2];return result;});
     if(reverse)segments.reverse();
-    return segments.map(({start,controls:[a,b,end]})=>{
+    const strokes = segments.map(({start,controls:[a,b,end]})=>{
       const points=reverse?[b,a,start]:[a,b,end];
       return ` C ${points.map(v=>p(...point(v))).join(' ')}`;
     }).join('');
+    signaturePrefix = d;
+    signatureData = `M ${p(...(reverse ? signatureEnd : signatureStart))}${strokes}`;
+    return strokes;
   }
   let d = `M ${p(photo.x+photo.w*.46,photo.y+photo.h*.88)}`;
   if (!mobile) {
@@ -316,6 +328,11 @@ function rebuildJourney() {
     d += ` C ${p(finalButton.x+finalButton.w+23,finalButton.y+finalButton.h)} ${p(finalButton.x+finalButton.w+23,finalButton.y)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }
   journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
+  journeyPath.setAttribute('d', signaturePrefix);
+  signatureOffset = journeyPath.getTotalLength();
+  signatureInk.setAttribute('d',signatureData);
+  signatureLength = signatureInk.getTotalLength();
+  signatureInk.style.strokeDasharray = signatureLength;
   journeyPath.setAttribute('d', d);
   journeyLength = journeyPath.getTotalLength();
   journeySamples = Array.from({length:301}, (_,i) => {const length=journeyLength*i/300;return {length,y:journeyPath.getPointAtLength(length).y};});
@@ -325,7 +342,7 @@ function rebuildJourney() {
 function updateJourney() {
   journeyFrame = false;
   if (!journeyLength) return;
-  if (motionPreference.matches) {journeyPath.style.strokeDashoffset='0';return;}
+  if (motionPreference.matches) {journeyPath.style.strokeDashoffset='0';signatureInk.style.strokeDashoffset='0';return;}
   const main = document.querySelector('main');
   const r = main.getBoundingClientRect();
   const edge = innerHeight*.92-r.top;
@@ -333,6 +350,7 @@ function updateJourney() {
   let visibleLength = 0;
   for (const sample of journeySamples) {if(sample.y>journeyRevealedEdge)break;visibleLength=sample.length;}
   journeyPath.style.strokeDashoffset = journeyLength-visibleLength;
+  signatureInk.style.strokeDashoffset = signatureLength-Math.max(0,Math.min(signatureLength,visibleLength-signatureOffset));
 }
 function scheduleJourney() {
   if (!journeyFrame) {journeyFrame=true;requestAnimationFrame(updateJourney);}
