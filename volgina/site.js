@@ -50,73 +50,8 @@ addEventListener('scroll', scheduleScrollEffects, { passive: true });
 addEventListener('resize', scheduleScrollEffects);
 updateScrollEffects();
 
-// Text enters gently; photo tiles are never hidden by an observer.
-if ('IntersectionObserver' in window) {
-  const targets = document.querySelectorAll('.about-copy, .about-facts > div, .section-heading, .comfort-copy > *, .contacts > *');
-  const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: .05, rootMargin: '0px 0px 32px 0px' });
-  targets.forEach((target, i) => {
-    target.classList.add('reveal');
-    target.style.setProperty('--reveal-delay', (i % 3) * 55 + 'ms');
-    revealObserver.observe(target);
-  });
-  const applyMotionPreference = () => document.documentElement.classList.toggle('motion-ready', !motionPreference.matches);
-  applyMotionPreference();
-  motionPreference.addEventListener('change', applyMotionPreference);
-  document.addEventListener('focusin', event => event.target.closest('.reveal')?.classList.add('in-view'));
-}
-
-// Request only nearby photographs, independent of browser lazy-loading distance.
-function hydratePhoto(img, priority = 'low') {
-  img.loading = 'eager';
-  img.fetchPriority = priority;
-  if (img.dataset.src) {
-    const source = img.parentElement.querySelector('source[data-srcset]');
-    if (source) { source.srcset = source.dataset.srcset; delete source.dataset.srcset; }
-    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-    img.src = img.dataset.src;
-    delete img.dataset.src;
-    delete img.dataset.srcset;
-  }
-  return img.decode().catch(() => {}).then(() => {
-    if (img.naturalWidth > 1) img.classList.add('is-loaded');
-  });
-}
-const photoObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    photoObserver.unobserve(entry.target);
-    hydratePhoto(entry.target, 'auto');
-  });
-}, { rootMargin: '400px 0px' }) : null;
-document.querySelectorAll('main img[data-src]').forEach(img => {
-  if (img.closest('.gallery-extra')) return;
-  if (photoObserver) photoObserver.observe(img);
-  else hydratePhoto(img);
-});
-// Three downloads at a time avoid a serial waterfall; starts retain DOM order.
-let galleryLoading = false;
-async function loadGalleryInOrder() {
-  if (galleryLoading) return;
-  galleryLoading = true;
-  const photos = [...document.querySelectorAll('.gallery-grid img, .gallery-extra img[data-src]')];
-  let cursor = 0;
-  async function worker() {
-    while (!galleryExtra.hidden && cursor < photos.length) {
-      const img = photos[cursor++];
-      photoObserver?.unobserve(img);
-      await hydratePhoto(img);
-    }
-  }
-  try { await Promise.all([worker(), worker(), worker()]); }
-  finally { galleryLoading = false; }
-}
+// All photographs are requested by the HTML parser at startup.
+// Gallery controls change visibility only, never image sources or loading.
 const galleryExtra = document.querySelector('#gallery-extra');
 const galleryToggle = document.querySelector('.gallery-toggle');
 if (galleryExtra && galleryToggle) {
@@ -129,9 +64,7 @@ if (galleryExtra && galleryToggle) {
     galleryExtra.hidden = !expanding;
     galleryToggle.setAttribute('aria-expanded', String(expanding));
     galleryToggle.textContent = expanding ? 'Скрыть фотографии' : 'Посмотреть все фотографии';
-    if (expanding) {
-      loadGalleryInOrder();
-    } else {
+    if (!expanding) {
       galleryToggle.scrollIntoView({ block: 'center', behavior: 'instant' });
     }
     scheduleScrollEffects();
