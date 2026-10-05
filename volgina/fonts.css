@@ -1,23 +1,5 @@
-@font-face {
-  font-family: 'Literata';
-  font-style: normal;
-  font-weight: 400 500;
-  font-display: swap;
-  src: url('./fonts/literata-ru.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Literata';
-  font-style: italic;
-  font-weight: 400 500;
-  font-display: swap;
-  src: url('./fonts/literata-italic-ru.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Onest';
-  font-style: normal;
-  font-weight: 400 500;
-  font-display: swap;
-  src: url('./fonts/onest-ru.woff2') format('woff2');
-}
+@font-face {font-family:'Old Standard';font-weight:400;font-style:normal;font-display:swap;src:url('./fonts/display-ru.woff2') format('woff2');}
+@font-face {font-family:'Old Standard';font-weight:700;font-style:normal;font-display:swap;src:url('./fonts/display-bold-ru.woff2') format('woff2');}
+@font-face {font-family:'Old Standard';font-weight:400;font-style:italic;font-display:swap;src:url('./fonts/display-italic-ru.woff2') format('woff2');}
+@font-face {font-family:'Signature';font-weight:400;font-style:normal;font-display:swap;src:url('./fonts/signature-ru.woff2') format('woff2');}
+@font-face {font-family:'Onest';font-weight:400 500;font-style:normal;font-display:swap;src:url('./fonts/onest-ru.woff2') format('woff2');}

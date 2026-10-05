@@ -217,3 +217,90 @@ if (reviewTrack) {
   addEventListener('resize', updateReviewControls);
   updateReviewControls();
 }
+
+// A single responsive cable connects the whole evening. Rebuild after gallery expansion.
+const journeySvg = document.querySelector('.journey-line');
+const journeyPath = document.querySelector('.journey-path');
+let journeyLength = 0;
+let journeySamples = [];
+let journeyFrame = false;
+function rebuildJourney() {
+  const main = document.querySelector('main');
+  const origin = main.getBoundingClientRect();
+  const width = main.clientWidth;
+  const mobile = width <= 760;
+  const box = selector => {
+    const r = document.querySelector(selector).getBoundingClientRect();
+    return { x:r.left-origin.left, y:r.top-origin.top, w:r.width, h:r.height };
+  };
+  const hero = box('.hero'), photo = box('.hero-image'), cta = box('.hero .button');
+  const about = box('.about'), formats = box('.formats'), comfort = box('.comfort');
+  const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
+  const finalButton = box('.contacts .button');
+  const x = fraction => width * fraction;
+  const y = (r, fraction) => r.y + r.h * fraction;
+  const p = (a,b) => `${a.toFixed(1)} ${b.toFixed(1)}`;
+  let d = `M ${p(photo.x+photo.w*.46,photo.y+photo.h*.88)}`;
+  if (!mobile) {
+    d += ` C ${p(x(.72),y(hero,.94))} ${p(x(.38),cta.y-35)} ${p(cta.x+cta.w,cta.y+cta.h*.5)}`;
+    d += ` C ${p(x(.23),y(hero,.88))} ${p(x(.23),y(hero,.98))} ${p(x(.72),about.y+90)}`;
+    d += ` C ${p(x(1.04),about.y+170)} ${p(x(1.01),y(about,.69))} ${p(x(.88),y(about,.7))}`;
+    d += ` C ${p(x(.82),y(about,.79))} ${p(x(.66),y(about,.68))} ${p(x(.73),y(about,.68))}`;
+    d += ` C ${p(x(.9),y(about,.68))} ${p(x(.52),y(about,.89))} ${p(x(.1),y(about,.93))}`;
+    d += ` C ${p(x(-.05),about.y+about.h)} ${p(x(.92),formats.y-5)} ${p(x(.95),formats.y+185)}`;
+    d += ` C ${p(x(1.06),y(formats,.52))} ${p(x(.64),y(formats,.58))} ${p(x(.57),y(formats,.55))}`;
+    d += ` C ${p(x(.48),y(formats,.52))} ${p(x(.32),y(formats,.54))} ${p(x(.12),y(formats,.65))}`;
+    d += ` C ${p(x(-.02),y(formats,.78))} ${p(x(.3),y(formats,.99))} ${p(x(.65),y(formats,.94))}`;
+    d += ` C ${p(x(.98),y(formats,.8))} ${p(x(1.04),comfort.y+35)} ${p(x(.8),comfort.y+100)}`;
+    d += ` C ${p(x(.64),comfort.y+160)} ${p(x(.64),y(comfort,.82))} ${p(x(.22),y(comfort,.87))}`;
+    d += ` C ${p(x(-.08),y(comfort,.96))} ${p(x(.51),comfort.y+comfort.h-12)} ${p(x(.77),gallery.y+20)}`;
+    d += ` C ${p(x(1.06),gallery.y+55)} ${p(x(.99),gallery.y+240)} ${p(x(.84),gallery.y+280)}`;
+    d += ` C ${p(x(.55),y(gallery,.54))} ${p(x(-.04),y(gallery,.28))} ${p(x(.04),y(gallery,.68))}`;
+    d += ` C ${p(x(.09),gallery.y+gallery.h-20)} ${p(x(.81),gallery.y+gallery.h-30)} ${p(x(.88),reviews.y+100)}`;
+    d += ` C ${p(x(1.04),reviews.y+170)} ${p(x(.96),reviews.y+245)} ${p(x(.89),reviews.y+260)}`;
+    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {x:r.left-origin.left+r.width*.5,y:r.top-origin.top-14};});
+    cards.reverse().forEach(card => {d += ` C ${p(card.x+75,card.y-42)} ${p(card.x+10,card.y-36)} ${p(card.x,card.y)}`;});
+    d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.8),reviews.y+reviews.h+10)} ${p(x(.92),contacts.y+120)}`;
+    d += ` C ${p(x(1.03),y(contacts,.75))} ${p(x(.62),finalButton.y-10)} ${p(finalButton.x+finalButton.w+10,finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(finalButton.x+finalButton.w+40,finalButton.y+finalButton.h*.9)} ${p(finalButton.x+finalButton.w+35,finalButton.y+finalButton.h*.15)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
+  } else {
+    d += ` C ${p(x(.96),y(hero,.7))} ${p(x(.9),cta.y+cta.h+4)} ${p(x(.025),cta.y+cta.h+4)}`;
+    d += ` C ${p(x(.015),cta.y+cta.h+100)} ${p(x(.015),about.y+150)} ${p(x(.04),about.y+205)}`;
+    d += ` C ${p(x(1.07),y(about,.58))} ${p(x(.9),y(about,.83))} ${p(x(.88),about.y+about.h-10)}`;
+    d += ` C ${p(x(.93),formats.y+35)} ${p(x(.05),formats.y-20)} ${p(x(.05),formats.y+250)}`;
+    d += ` C ${p(x(-.04),y(formats,.48))} ${p(x(1.09),y(formats,.44))} ${p(x(.96),y(formats,.74))}`;
+    d += ` C ${p(x(.86),formats.y+formats.h)} ${p(x(.02),comfort.y-10)} ${p(x(.02),comfort.y+125)}`;
+    d += ` C ${p(x(-.04),y(comfort,.55))} ${p(x(1.08),y(comfort,.67))} ${p(x(.95),y(comfort,.86))}`;
+    d += ` C ${p(x(.85),comfort.y+comfort.h)} ${p(x(.05),gallery.y-10)} ${p(x(.03),gallery.y+200)}`;
+    d += ` C ${p(x(-.07),y(gallery,.69))} ${p(x(.98),y(gallery,.76))} ${p(x(.97),gallery.y+gallery.h+20)}`;
+    d += ` C ${p(x(.94),reviews.y+70)} ${p(x(.64),reviews.y+120)} ${p(x(.5),reviews.y+135)}`;
+    d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
+    d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.07),y(contacts,.8))} ${p(finalButton.x+finalButton.w+7,finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(finalButton.x+finalButton.w+23,finalButton.y+finalButton.h)} ${p(finalButton.x+finalButton.w+23,finalButton.y)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
+  }
+  journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
+  journeyPath.setAttribute('d', d);
+  journeyLength = journeyPath.getTotalLength();
+  journeySamples = Array.from({length:301}, (_,i) => {const length=journeyLength*i/300;return {length,y:journeyPath.getPointAtLength(length).y};});
+  journeyPath.style.strokeDasharray = journeyLength;
+  updateJourney();
+}
+function updateJourney() {
+  journeyFrame = false;
+  if (!journeyLength) return;
+  if (motionPreference.matches) {journeyPath.style.strokeDashoffset='0';return;}
+  const main = document.querySelector('main');
+  const r = main.getBoundingClientRect();
+  const edge = innerHeight*.92-r.top;
+  let visibleLength = 0;
+  for (const sample of journeySamples) {if(sample.y>edge)break;visibleLength=sample.length;}
+  journeyPath.style.strokeDashoffset = journeyLength-visibleLength;
+}
+function scheduleJourney() {
+  if (!journeyFrame) {journeyFrame=true;requestAnimationFrame(updateJourney);}
+}
+addEventListener('scroll',scheduleJourney,{passive:true});
+motionPreference.addEventListener('change',updateJourney);
+new ResizeObserver(rebuildJourney).observe(document.querySelector('main'));
+document.fonts.ready.then(rebuildJourney);
+addEventListener('load',rebuildJourney,{once:true});
