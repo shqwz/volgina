@@ -43,3 +43,8 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 @media(min-width:761px) and (max-width:900px){.hero-image{width:740px;right:-120px;top:100px}.hero-copy{max-width:88%}.hero-tagline{max-width:320px}.hero-tagline p{font-size:31px}.hero-description{max-width:30ch;font-size:14px;position:relative;z-index:6;background:var(--paper)}.hero .button{min-width:250px;font-size:14px}.hero{height:755px}.about-copy p,.about-copy .lead{font-size:14px}.about-facts strong{font-size:21px}.about-facts>div:first-child{gap:12px}.about-facts>div:first-child strong{font-size:42px}.fact-number{font-size:64px}.signature{top:60%;font-size:48px}.about-facts{margin-top:70px}.gallery-toggle{font-size:11px}.benefit h3{font-size:25px}}
 @media(min-width:761px) and (max-width:1100px){.hero-description{max-width:35ch;z-index:6;background:var(--paper)}}
 @media(min-width:901px) and (max-width:1100px){.hero-image{right:-175px}}
+
+/* The signature is drawn by the page cable; its text remains accessible. */
+.signature{width:clamp(210px,22vw,300px);height:auto;aspect-ratio:380/160;transform:none;color:transparent;pointer-events:none;line-height:1}
+@media(min-width:761px){.about-copy{padding-top:64px}}
+@media(max-width:760px){.signature{width:190px;bottom:-90px;right:-30px}.about-photo{margin-bottom:82px}.about-copy{padding-top:28px}}

@@ -238,18 +238,46 @@ function rebuildJourney() {
   const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
   const finalButton = box('.contacts .button');
   const signature = box('.signature');
+  const grid = box('.gallery-grid');
+  // The opening composition has its own fixed geometry, independent of extra photos.
+  const galleryBase = {y:gallery.y, h:grid.y+grid.h+parseFloat(getComputedStyle(document.querySelector('.gallery')).paddingBottom)-gallery.y};
   const x = fraction => width * fraction;
   const y = (r, fraction) => r.y + r.h * fraction;
   const p = (a,b) => `${a.toFixed(1)} ${b.toFixed(1)}`;
+  // A handwritten, single-stroke Ирина. Each cubic joins the preceding one.
+  const ink = [
+    [[30,82],[68,58],[82,16]], [[96,-8],[76,16],[68,43]],
+    [[56,82],[30,130],[45,132]], [[70,125],[121,45],[142,22]],
+    [[124,56],[100,111],[116,112]], [[132,108],[151,83],[159,73]],
+    [[151,101],[140,137],[130,158]], [[147,120],[164,69],[179,70]],
+    [[198,70],[181,103],[160,101]], [[179,98],[200,79],[209,73]],
+    [[201,87],[194,109],[204,104]], [[216,98],[228,77],[233,71]],
+    [[226,86],[219,108],[229,104]], [[240,99],[250,76],[254,71]],
+    [[245,92],[242,109],[249,103]], [[255,93],[266,87],[276,87]],
+    [[284,68],[280,80],[272,101]], [[285,95],[294,82],[302,80]],
+    [[322,62],[319,91],[302,103]], [[288,115],[296,87],[311,82]],
+    [[329,64],[322,90],[325,99]], [[332,113],[361,91],[380,91]]
+  ];
+  const point = ([a,b]) => [signature.x+a*signature.w/380, signature.y+b*signature.h/160];
+  const signatureStart = point([0,94]);
+  const signatureEnd = point([380,91]);
+  function writeSignature(reverse=false) {
+    let start=[0,94];
+    const segments=ink.map(segment=>{const result={start,controls:segment};start=segment[2];return result;});
+    if(reverse)segments.reverse();
+    return segments.map(({start,controls:[a,b,end]})=>{
+      const points=reverse?[b,a,start]:[a,b,end];
+      return ` C ${points.map(v=>p(...point(v))).join(' ')}`;
+    }).join('');
+  }
   let d = `M ${p(photo.x+photo.w*.46,photo.y+photo.h*.88)}`;
   if (!mobile) {
     d += ` C ${p(x(.72),y(hero,.94))} ${p(x(.38),cta.y-35)} ${p(cta.x+cta.w,cta.y+cta.h*.5)}`;
     d += ` C ${p(x(.23),y(hero,.88))} ${p(x(.23),y(hero,.98))} ${p(x(.72),about.y+90)}`;
-    // The cable becomes the flourish of Irina's signature, rather than circling the facts.
-    d += ` C ${p(x(1.04),about.y+170)} ${p(x(1.01),signature.y+signature.h*.75)} ${p(signature.x+signature.w,signature.y+signature.h*.65)}`;
-    d += ` C ${p(signature.x+signature.w+65,signature.y+signature.h*.1)} ${p(signature.x+signature.w*.65,signature.y+signature.h*.9)} ${p(signature.x+signature.w*.45,signature.y+signature.h*.72)}`;
-    d += ` C ${p(signature.x+signature.w*.3,signature.y+signature.h*.55)} ${p(signature.x+signature.w*.12,signature.y+signature.h*.48)} ${p(signature.x,signature.y+signature.h*.68)}`;
-    d += ` C ${p(signature.x-100,signature.y+signature.h)} ${p(x(.3),y(about,.93))} ${p(x(.1),y(about,.93))}`;
+    d += ` C ${p(x(1.04),about.y+170)} ${p(x(1.01),signatureEnd[1]+75)} ${p(signatureEnd[0]+90,signatureEnd[1]+20)}`;
+    d += ` C ${p(signatureEnd[0]+40,signatureEnd[1]-50)} ${p(signatureEnd[0]+20,signatureEnd[1]-5)} ${p(...signatureEnd)}`;
+    d += writeSignature(true);
+    d += ` C ${p(signatureStart[0]-100,signatureStart[1]+70)} ${p(x(.3),y(about,.93))} ${p(x(.1),y(about,.93))}`;
     d += ` C ${p(x(-.05),about.y+about.h)} ${p(x(.92),formats.y-5)} ${p(x(.95),formats.y+185)}`;
     d += ` C ${p(x(1.06),y(formats,.52))} ${p(x(.64),y(formats,.58))} ${p(x(.57),y(formats,.55))}`;
     d += ` C ${p(x(.48),y(formats,.52))} ${p(x(.32),y(formats,.54))} ${p(x(.12),y(formats,.65))}`;
@@ -258,8 +286,9 @@ function rebuildJourney() {
     d += ` C ${p(x(.64),comfort.y+160)} ${p(x(.64),y(comfort,.82))} ${p(x(.22),y(comfort,.87))}`;
     d += ` C ${p(x(-.08),y(comfort,.96))} ${p(x(.51),comfort.y+comfort.h-12)} ${p(x(.77),gallery.y+20)}`;
     d += ` C ${p(x(1.06),gallery.y+55)} ${p(x(.99),gallery.y+240)} ${p(x(.84),gallery.y+280)}`;
-    d += ` C ${p(x(.55),y(gallery,.54))} ${p(x(-.04),y(gallery,.28))} ${p(x(.04),y(gallery,.68))}`;
-    d += ` C ${p(x(.09),gallery.y+gallery.h-20)} ${p(x(.81),gallery.y+gallery.h-30)} ${p(x(.88),reviews.y+100)}`;
+    d += ` C ${p(x(.55),y(galleryBase,.54))} ${p(x(-.04),y(galleryBase,.28))} ${p(x(.04),y(galleryBase,.68))}`;
+    d += ` C ${p(x(.09),galleryBase.y+galleryBase.h-20)} ${p(x(.81),galleryBase.y+galleryBase.h-30)} ${p(x(.88),galleryBase.y+galleryBase.h)}`;
+    d += ` C ${p(x(.98),galleryBase.y+galleryBase.h+70)} ${p(x(.98),reviews.y+40)} ${p(x(.88),reviews.y+100)}`;
     d += ` C ${p(x(1.04),reviews.y+170)} ${p(x(.96),reviews.y+245)} ${p(x(.89),reviews.y+260)}`;
     const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {x:r.left-origin.left+r.width*.5,y:r.top-origin.top-14};});
     cards.reverse().forEach(card => {d += ` C ${p(card.x+75,card.y-42)} ${p(card.x+10,card.y-36)} ${p(card.x,card.y)}`;});
@@ -269,15 +298,16 @@ function rebuildJourney() {
   } else {
     d += ` C ${p(x(.96),y(hero,.7))} ${p(x(.9),cta.y+cta.h+4)} ${p(x(.025),cta.y+cta.h+4)}`;
     d += ` C ${p(x(.015),cta.y+cta.h+100)} ${p(x(.015),about.y+150)} ${p(x(.04),about.y+205)}`;
-    d += ` C ${p(x(.02),signature.y+signature.h)} ${p(signature.x-50,signature.y+signature.h*.8)} ${p(signature.x,signature.y+signature.h*.65)}`;
-    d += ` C ${p(signature.x+signature.w*.3,signature.y+signature.h*.5)} ${p(signature.x+signature.w*.7,signature.y+signature.h*.8)} ${p(signature.x+signature.w,signature.y+signature.h*.55)}`;
-    d += ` C ${p(x(1.07),signature.y+signature.h*.15)} ${p(x(.95),y(about,.83))} ${p(x(.88),about.y+about.h-10)}`;
+    d += ` C ${p(x(.02),signatureStart[1]+30)} ${p(signatureStart[0]-50,signatureStart[1]+25)} ${p(...signatureStart)}`;
+    d += writeSignature();
+    d += ` C ${p(signatureEnd[0]+30,signatureEnd[1])} ${p(x(.95),y(about,.83))} ${p(x(.88),about.y+about.h-10)}`;
     d += ` C ${p(x(.93),formats.y+35)} ${p(x(.05),formats.y-20)} ${p(x(.05),formats.y+250)}`;
     d += ` C ${p(x(-.04),y(formats,.48))} ${p(x(1.09),y(formats,.44))} ${p(x(.96),y(formats,.74))}`;
     d += ` C ${p(x(.86),formats.y+formats.h)} ${p(x(.02),comfort.y-10)} ${p(x(.02),comfort.y+125)}`;
     d += ` C ${p(x(-.04),y(comfort,.55))} ${p(x(1.08),y(comfort,.67))} ${p(x(.95),y(comfort,.86))}`;
     d += ` C ${p(x(.85),comfort.y+comfort.h)} ${p(x(.05),gallery.y-10)} ${p(x(.03),gallery.y+200)}`;
-    d += ` C ${p(x(-.07),y(gallery,.69))} ${p(x(.98),y(gallery,.76))} ${p(x(.97),gallery.y+gallery.h+20)}`;
+    d += ` C ${p(x(-.07),y(galleryBase,.69))} ${p(x(.98),y(galleryBase,.76))} ${p(x(.97),galleryBase.y+galleryBase.h)}`;
+    d += ` C ${p(x(.99),galleryBase.y+galleryBase.h+40)} ${p(x(.99),gallery.y+gallery.h)} ${p(x(.97),gallery.y+gallery.h+20)}`;
     d += ` C ${p(x(.94),reviews.y+70)} ${p(x(.64),reviews.y+120)} ${p(x(.5),reviews.y+135)}`;
     d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
     d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.07),y(contacts,.8))} ${p(finalButton.x+finalButton.w+7,finalButton.y+finalButton.h*.5)}`;
