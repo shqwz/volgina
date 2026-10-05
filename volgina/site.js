@@ -328,8 +328,8 @@ function rebuildJourney() {
       d += ` C ${p(card.right-span*.25,card.y-62)} ${p(card.left+span*.25,card.y-62)} ${p(card.left,card.y)}`;
       if(index<cards.length-1) d += ` L ${p(cards[index+1].right,cards[index+1].y)}`;
     });
-    d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.8),reviews.y+reviews.h+10)} ${p(x(.92),contacts.y+120)}`;
-    d += ` C ${p(x(1.03),y(contacts,.6))} ${p(x(.98),finalButton.y+finalButton.h*.5)} ${p(x(.92),finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.7),reviews.y+reviews.h+10)} ${p(x(.78),contacts.y+120)}`;
+    d += ` C ${p(x(.84),y(contacts,.6))} ${p(x(.8),finalButton.y+finalButton.h*.5)} ${p(x(.76),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   } else {
     d += ` C ${p(x(.96),y(hero,.7))} ${p(x(.9),cta.y+cta.h+4)} ${p(x(.025),cta.y+cta.h+4)}`;
@@ -347,7 +347,7 @@ function rebuildJourney() {
     d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
     d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
     d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
-    d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.04),finalButton.y+finalButton.h*.5)} ${p(x(.98),finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(x(.99),contacts.y-45)} ${p(x(.98),finalButton.y+finalButton.h*.5)} ${p(x(.95),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }
   journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
