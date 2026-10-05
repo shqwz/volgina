@@ -79,3 +79,10 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 
 .signature-ink{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 @media(max-width:760px){.signature-ink{stroke-width:1.8}}
+
+/* Deferred images reserve space without downloading hidden gallery photographs. */
+img[data-src]{display:none}.js img[data-src]{display:block}
+.gallery-photo{background:#efebe6}
+.gallery-extra img{opacity:1;transition:opacity .3s}
+.js .gallery-extra img[data-src]{opacity:0}
+@media(min-width:761px){.reviews-grid .review-photo:nth-child(n){transform:none}.review-photo::before{display:none}}

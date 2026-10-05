@@ -72,6 +72,27 @@ if ('IntersectionObserver' in window) {
   document.addEventListener('focusin', event => event.target.closest('.reveal')?.classList.add('in-view'));
 }
 
+// Hydrate hidden photographs one at a time, in their visible DOM order.
+let galleryLoading = false;
+async function loadGalleryInOrder() {
+  if (galleryLoading) return;
+  galleryLoading = true;
+  try {
+    for (const img of document.querySelectorAll('.gallery-grid img, .gallery-extra img[data-src]')) {
+      if (galleryExtra.hidden) break;
+      img.loading = 'eager';
+      img.fetchPriority = 'low';
+      if (img.dataset.src) {
+        img.srcset = img.dataset.srcset || '';
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+        delete img.dataset.srcset;
+      }
+      try { await img.decode(); } catch { /* A failed photo must not stop the next one. */ }
+      if (img.naturalWidth > 1) img.classList.add('is-loaded');
+    }
+  } finally { galleryLoading = false; }
+}
 const galleryExtra = document.querySelector('#gallery-extra');
 const galleryToggle = document.querySelector('.gallery-toggle');
 if (galleryExtra && galleryToggle) {
@@ -85,7 +106,7 @@ if (galleryExtra && galleryToggle) {
     galleryToggle.setAttribute('aria-expanded', String(expanding));
     galleryToggle.textContent = expanding ? 'Скрыть фотографии' : 'Посмотреть все фотографии';
     if (expanding) {
-      galleryExtra.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+      loadGalleryInOrder();
     } else {
       galleryToggle.scrollIntoView({ block: 'center', behavior: 'instant' });
     }
@@ -304,8 +325,14 @@ function rebuildJourney() {
     d += ` C ${p(x(.09),galleryBase.y+galleryBase.h-20)} ${p(x(.81),galleryBase.y+galleryBase.h-30)} ${p(x(.88),galleryBase.y+galleryBase.h)}`;
     d += ` C ${p(x(.98),galleryBase.y+galleryBase.h+70)} ${p(x(.98),reviews.y+40)} ${p(x(.88),reviews.y+100)}`;
     d += ` C ${p(x(1.04),reviews.y+170)} ${p(x(.96),reviews.y+245)} ${p(x(.89),reviews.y+260)}`;
-    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {x:r.left-origin.left+r.width*.5,y:r.top-origin.top-14};});
-    cards.reverse().forEach(card => {d += ` C ${p(card.x+75,card.y-42)} ${p(card.x+10,card.y-36)} ${p(card.x,card.y)}`;});
+    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {x:r.left-origin.left+r.width*.5,y:r.top-origin.top-12};});
+    cards.reverse().forEach(card => {
+      // Equal arches and equal closed loops, drawn with identical local coordinates.
+      d += ` C ${p(card.x+110,card.y-28)} ${p(card.x+85,card.y-28)} ${p(card.x+65,card.y-18)}`;
+      d += ` C ${p(card.x+48,card.y-58)} ${p(card.x-20,card.y-58)} ${p(card.x-20,card.y-8)}`;
+      d += ` C ${p(card.x-30,card.y+14)} ${p(card.x-3,card.y+24)} ${p(card.x-2,card.y+2)}`;
+      d += ` C ${p(card.x,card.y-17)} ${p(card.x-20,card.y-22)} ${p(card.x-20,card.y-8)}`;
+    });
     d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.8),reviews.y+reviews.h+10)} ${p(x(.92),contacts.y+120)}`;
     d += ` C ${p(x(1.03),y(contacts,.75))} ${p(x(.62),finalButton.y-10)} ${p(finalButton.x+finalButton.w+10,finalButton.y+finalButton.h*.5)}`;
     d += ` C ${p(finalButton.x+finalButton.w+40,finalButton.y+finalButton.h*.9)} ${p(finalButton.x+finalButton.w+35,finalButton.y+finalButton.h*.15)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
