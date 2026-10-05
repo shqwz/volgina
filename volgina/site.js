@@ -314,6 +314,7 @@ function rebuildJourney() {
   const about = box('.about'), formats = box('.formats'), comfort = box('.comfort');
   const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
   const reviewTrackBox = box('.reviews-grid'), firstReview = box('.review-photo');
+  const mobileReviewEdge = reviewTrackBox.x+parseFloat(getComputedStyle(document.querySelector('.reviews-grid')).paddingLeft)+firstReview.w;
   const finalButton = box('.contacts .button');
   const signature = box('.signature');
   const grid = box('.gallery-grid');
@@ -397,8 +398,8 @@ function rebuildJourney() {
     d += ` C ${p(x(.85),comfort.y+comfort.h)} ${p(x(.05),gallery.y-10)} ${p(x(.03),gallery.y+200)}`;
     d += ` C ${p(x(-.07),y(galleryBase,.69))} ${p(x(.98),y(galleryBase,.76))} ${p(x(.97),galleryBase.y+galleryBase.h)}`;
     d += ` C ${p(x(.99),galleryBase.y+galleryBase.h+40)} ${p(x(.99),gallery.y+gallery.h)} ${p(x(.97),gallery.y+gallery.h+20)}`;
-    d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(reviewTrackBox.x+reviewTrackBox.w*.5+firstReview.w*.5,firstReview.y)}`;
-    d += ` L ${p(reviewTrackBox.x+reviewTrackBox.w*.5+firstReview.w*.5,firstReview.y+10)}`;
+    d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
+    d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
     d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
     d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.04),finalButton.y+finalButton.h*.5)} ${p(x(.98),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
