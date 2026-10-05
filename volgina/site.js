@@ -64,9 +64,8 @@ if (galleryExtra && galleryToggle) {
     galleryExtra.hidden = !expanding;
     galleryToggle.setAttribute('aria-expanded', String(expanding));
     galleryToggle.textContent = expanding ? 'Скрыть фотографии' : 'Посмотреть все фотографии';
-    if (!expanding) {
-      galleryToggle.scrollIntoView({ block: 'center', behavior: 'instant' });
-    }
+    // Synchronize the SVG before this layout change can be painted.
+    rebuildJourney();
     scheduleScrollEffects();
   });
 }
@@ -319,7 +318,11 @@ function rebuildJourney() {
     d += ` C ${p(x(1.06),gallery.y+55)} ${p(x(.99),gallery.y+240)} ${p(x(.84),gallery.y+280)}`;
     d += ` C ${p(x(.55),y(galleryBase,.54))} ${p(x(-.04),y(galleryBase,.28))} ${p(x(.04),y(galleryBase,.68))}`;
     d += ` C ${p(x(.09),galleryBase.y+galleryBase.h-20)} ${p(x(.81),galleryBase.y+galleryBase.h-30)} ${p(x(.88),galleryBase.y+galleryBase.h)}`;
-    d += ` C ${p(x(.98),galleryBase.y+galleryBase.h+70)} ${p(x(.98),reviews.y+40)} ${p(x(.88),reviews.y+100)}`;
+    const galleryExitY = galleryBase.y+galleryBase.h;
+    // Keep the exit bend fixed; only the straight edge extends for extra rows.
+    d += ` C ${p(x(.96),galleryExitY+12)} ${p(x(.98),galleryExitY+22)} ${p(x(.98),galleryExitY+40)}`;
+    d += ` L ${p(x(.98),reviews.y+40)}`;
+    d += ` C ${p(x(.98),reviews.y+60)} ${p(x(.94),reviews.y+90)} ${p(x(.88),reviews.y+100)}`;
     const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {left:r.left-origin.left,right:r.right-origin.left,y:r.top-origin.top};}).reverse();
     d += ` C ${p(x(1.02),reviews.y+170)} ${p(cards[0].right+55,cards[0].y)} ${p(cards[0].right,cards[0].y)}`;
     cards.forEach((card,index) => {
@@ -343,14 +346,18 @@ function rebuildJourney() {
     d += ` C ${p(x(-.04),y(comfort,.55))} ${p(x(1.08),y(comfort,.67))} ${p(x(.95),y(comfort,.86))}`;
     d += ` C ${p(x(.85),comfort.y+comfort.h)} ${p(x(.05),gallery.y-10)} ${p(x(.03),gallery.y+200)}`;
     d += ` C ${p(x(-.07),y(galleryBase,.69))} ${p(x(.98),y(galleryBase,.76))} ${p(x(.97),galleryBase.y+galleryBase.h)}`;
-    d += ` C ${p(x(.99),galleryBase.y+galleryBase.h+40)} ${p(x(.99),gallery.y+gallery.h)} ${p(x(.97),gallery.y+gallery.h+20)}`;
+    const galleryExitY = galleryBase.y+galleryBase.h;
+    d += ` C ${p(x(.985),galleryExitY+8)} ${p(x(.99),galleryExitY+14)} ${p(x(.99),galleryExitY+20)}`;
+    d += ` L ${p(x(.99),gallery.y+gallery.h+20)}`;
     d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
     d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
     d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
     d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.04),finalButton.y+finalButton.h*.5)} ${p(x(.98),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }
-  journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
+  // Explicit dimensions prevent transient scaling against an old viewBox.
+  journeySvg.style.height = `${origin.height}px`;
+  journeySvg.setAttribute('viewBox', `0 0 ${width} ${origin.height}`);
   signatureInk.setAttribute('d',signatureData);
   journeyPath.setAttribute('d',d);
   rebuildTextClearance();
@@ -361,6 +368,7 @@ function scheduleJourneyRebuild() {
   rebuildFrame = true;
   requestAnimationFrame(() => { rebuildFrame = false; rebuildJourney(); });
 }
-new ResizeObserver(scheduleJourneyRebuild).observe(document.querySelector('main'));
+// ResizeObserver runs before paint; do not delay its update by another frame.
+new ResizeObserver(rebuildJourney).observe(document.querySelector('main'));
 document.fonts.ready.then(scheduleJourneyRebuild);
 addEventListener('load',scheduleJourneyRebuild,{once:true});

@@ -33,3 +33,9 @@ At 390 and 1440 pixels, every main-page image decoded while `scrollY` remained z
 ## Fully visible cable
 
 The entire cable and handwritten name are visible immediately after initial layout. Scroll-driven dash offsets, curve sampling and animation listeners have been removed. The path is rebuilt only for layout changes, gallery expansion and font/image loading, retaining text clearance and responsive geometry.
+
+## Stable gallery toggling
+
+Gallery toggles rebuild the SVG synchronously, with an explicit height matching its viewBox. ResizeObserver updates occur before paint. The initial gallery curve and its exit bend retain their coordinates; only a straight outer-edge segment lengthens for the additional rows. Collapsing no longer forces a scroll to the button.
+
+Verified at 360, 390, 768 and 1440 pixels across six alternating toggles: identical initial curve and signature, identical first-photo positions, unchanged viewport scroll and SVG screen transform, and no delayed scaling on the following paint. The hosting archive includes this fix.
