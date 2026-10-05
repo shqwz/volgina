@@ -247,6 +247,54 @@ const signatureInk = document.createElementNS('http://www.w3.org/2000/svg','path
 signatureInk.setAttribute('class','signature-ink');
 signatureInk.setAttribute('fill','none');
 journeySvg.append(signatureInk);
+// Cut the cable out around each rendered line of text, with breathing room.
+const svgNamespace = 'http://www.w3.org/2000/svg';
+const lineDefs = document.createElementNS(svgNamespace,'defs');
+const textClearance = document.createElementNS(svgNamespace,'mask');
+textClearance.id = 'journey-text-clearance';
+textClearance.setAttribute('maskUnits','userSpaceOnUse');
+lineDefs.append(textClearance);
+journeySvg.prepend(lineDefs);
+journeyPath.setAttribute('mask','url(#journey-text-clearance)');
+signatureInk.setAttribute('mask','url(#journey-text-clearance)');
+function rebuildTextClearance() {
+  const main = document.querySelector('main');
+  const origin = main.getBoundingClientRect();
+  const white = document.createElementNS(svgNamespace,'rect');
+  white.setAttribute('width',main.clientWidth);
+  white.setAttribute('height',main.scrollHeight);
+  white.setAttribute('fill','white');
+  const cutouts = [white];
+  main.querySelectorAll('h1,h2,h3,p,blockquote,.price-note>span,.about-facts strong,.scroll-cue,.contact-channel').forEach(el => {
+    const walker = document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()) {
+      const node = walker.currentNode;
+      if(!node.textContent.trim() || node.parentElement.closest('.signature,[aria-hidden]')) continue;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      for(const r of range.getClientRects()) {
+        if(!r.width || !r.height) continue;
+        const rect = document.createElementNS(svgNamespace,'rect');
+        const moving = el.closest('.reveal') && !el.closest('.reveal').classList.contains('in-view');
+        const padding = 9;
+        rect.setAttribute('x',r.left-origin.left-padding);
+        rect.setAttribute('y',r.top-origin.top-padding-(moving?14:0));
+        rect.setAttribute('width',r.width+padding*2);
+        rect.setAttribute('height',r.height+padding*2+(moving?14:0));
+        rect.setAttribute('fill','black');
+        cutouts.push(rect);
+      }
+    }
+  });
+  textClearance.setAttribute('x','0');
+  textClearance.setAttribute('y','0');
+  textClearance.setAttribute('width',main.clientWidth);
+  textClearance.setAttribute('height',main.scrollHeight);
+  textClearance.replaceChildren(...cutouts);
+}
+document.querySelector('main').addEventListener('transitionend',event => {
+  if(event.propertyName==='transform' && event.target.classList.contains('reveal')) rebuildTextClearance();
+});
 let signatureOffset = 0;
 let signatureLength = 0;
 let journeyLength = 0;
@@ -265,6 +313,7 @@ function rebuildJourney() {
   const hero = box('.hero'), photo = box('.hero-image'), cta = box('.hero .button');
   const about = box('.about'), formats = box('.formats'), comfort = box('.comfort');
   const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
+  const reviewTrackBox = box('.reviews-grid'), firstReview = box('.review-photo');
   const finalButton = box('.contacts .button');
   const signature = box('.signature');
   const grid = box('.gallery-grid');
@@ -332,10 +381,11 @@ function rebuildJourney() {
       d += ` C ${p(card.x+48,card.y-58)} ${p(card.x-20,card.y-58)} ${p(card.x-20,card.y-8)}`;
       d += ` C ${p(card.x-30,card.y+14)} ${p(card.x-3,card.y+24)} ${p(card.x-2,card.y+2)}`;
       d += ` C ${p(card.x,card.y-17)} ${p(card.x-20,card.y-22)} ${p(card.x-20,card.y-8)}`;
+      d += ` L ${p(card.x-20,card.y+14)}`;
     });
     d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.8),reviews.y+reviews.h+10)} ${p(x(.92),contacts.y+120)}`;
-    d += ` C ${p(x(1.03),y(contacts,.75))} ${p(x(.62),finalButton.y-10)} ${p(finalButton.x+finalButton.w+10,finalButton.y+finalButton.h*.5)}`;
-    d += ` C ${p(finalButton.x+finalButton.w+40,finalButton.y+finalButton.h*.9)} ${p(finalButton.x+finalButton.w+35,finalButton.y+finalButton.h*.15)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(x(1.03),y(contacts,.6))} ${p(x(.98),finalButton.y+finalButton.h*.5)} ${p(x(.92),finalButton.y+finalButton.h*.5)}`;
+    d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   } else {
     d += ` C ${p(x(.96),y(hero,.7))} ${p(x(.9),cta.y+cta.h+4)} ${p(x(.025),cta.y+cta.h+4)}`;
     d += ` C ${p(x(.015),cta.y+cta.h+100)} ${p(x(.015),about.y+150)} ${p(x(.04),about.y+205)}`;
@@ -349,10 +399,11 @@ function rebuildJourney() {
     d += ` C ${p(x(.85),comfort.y+comfort.h)} ${p(x(.05),gallery.y-10)} ${p(x(.03),gallery.y+200)}`;
     d += ` C ${p(x(-.07),y(galleryBase,.69))} ${p(x(.98),y(galleryBase,.76))} ${p(x(.97),galleryBase.y+galleryBase.h)}`;
     d += ` C ${p(x(.99),galleryBase.y+galleryBase.h+40)} ${p(x(.99),gallery.y+gallery.h)} ${p(x(.97),gallery.y+gallery.h+20)}`;
-    d += ` C ${p(x(.94),reviews.y+70)} ${p(x(.64),reviews.y+120)} ${p(x(.5),reviews.y+135)}`;
+    d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(reviewTrackBox.x+reviewTrackBox.w*.5+7,firstReview.y-9)}`;
+    d += ` L ${p(reviewTrackBox.x+reviewTrackBox.w*.5+7,firstReview.y+10)}`;
     d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
-    d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.07),y(contacts,.8))} ${p(finalButton.x+finalButton.w+7,finalButton.y+finalButton.h*.5)}`;
-    d += ` C ${p(finalButton.x+finalButton.w+23,finalButton.y+finalButton.h)} ${p(finalButton.x+finalButton.w+23,finalButton.y)} ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
+    d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.04),finalButton.y+finalButton.h*.5)} ${p(x(.98),finalButton.y+finalButton.h*.5)}`;
+    d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }
   journeySvg.setAttribute('viewBox', `0 0 ${width} ${main.scrollHeight}`);
   journeyPath.setAttribute('d', signaturePrefix);
@@ -364,6 +415,7 @@ function rebuildJourney() {
   journeyLength = journeyPath.getTotalLength();
   journeySamples = Array.from({length:301}, (_,i) => {const length=journeyLength*i/300;return {length,y:journeyPath.getPointAtLength(length).y};});
   journeyPath.style.strokeDasharray = journeyLength;
+  rebuildTextClearance();
   updateJourney();
 }
 function updateJourney() {
