@@ -72,26 +72,50 @@ if ('IntersectionObserver' in window) {
   document.addEventListener('focusin', event => event.target.closest('.reveal')?.classList.add('in-view'));
 }
 
-// Hydrate hidden photographs one at a time, in their visible DOM order.
+// Request only nearby photographs, independent of browser lazy-loading distance.
+function hydratePhoto(img, priority = 'low') {
+  img.loading = 'eager';
+  img.fetchPriority = priority;
+  if (img.dataset.src) {
+    const source = img.parentElement.querySelector('source[data-srcset]');
+    if (source) { source.srcset = source.dataset.srcset; delete source.dataset.srcset; }
+    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+    delete img.dataset.srcset;
+  }
+  return img.decode().catch(() => {}).then(() => {
+    if (img.naturalWidth > 1) img.classList.add('is-loaded');
+  });
+}
+const photoObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    photoObserver.unobserve(entry.target);
+    hydratePhoto(entry.target, 'auto');
+  });
+}, { rootMargin: '400px 0px' }) : null;
+document.querySelectorAll('main img[data-src]').forEach(img => {
+  if (img.closest('.gallery-extra')) return;
+  if (photoObserver) photoObserver.observe(img);
+  else hydratePhoto(img);
+});
+// Three downloads at a time avoid a serial waterfall; starts retain DOM order.
 let galleryLoading = false;
 async function loadGalleryInOrder() {
   if (galleryLoading) return;
   galleryLoading = true;
-  try {
-    for (const img of document.querySelectorAll('.gallery-grid img, .gallery-extra img[data-src]')) {
-      if (galleryExtra.hidden) break;
-      img.loading = 'eager';
-      img.fetchPriority = 'low';
-      if (img.dataset.src) {
-        img.srcset = img.dataset.srcset || '';
-        img.src = img.dataset.src;
-        delete img.dataset.src;
-        delete img.dataset.srcset;
-      }
-      try { await img.decode(); } catch { /* A failed photo must not stop the next one. */ }
-      if (img.naturalWidth > 1) img.classList.add('is-loaded');
+  const photos = [...document.querySelectorAll('.gallery-grid img, .gallery-extra img[data-src]')];
+  let cursor = 0;
+  async function worker() {
+    while (!galleryExtra.hidden && cursor < photos.length) {
+      const img = photos[cursor++];
+      photoObserver?.unobserve(img);
+      await hydratePhoto(img);
     }
-  } finally { galleryLoading = false; }
+  }
+  try { await Promise.all([worker(), worker(), worker()]); }
+  finally { galleryLoading = false; }
 }
 const galleryExtra = document.querySelector('#gallery-extra');
 const galleryToggle = document.querySelector('.gallery-toggle');
@@ -293,8 +317,45 @@ function rebuildTextClearance() {
   textClearance.replaceChildren(...cutouts);
 }
 document.querySelector('main').addEventListener('transitionend',event => {
-  if(event.propertyName==='transform' && event.target.classList.contains('reveal')) rebuildTextClearance();
+  if(event.propertyName==='transform' && event.target.classList.contains('reveal')) scheduleTextClearance();
 });
+let clearanceFrame = false;
+function scheduleTextClearance() {
+  if (clearanceFrame) return;
+  clearanceFrame = true;
+  requestAnimationFrame(() => { clearanceFrame = false; rebuildTextClearance(); });
+}
+// Sample each cubic directly. Repeated SVG getPointAtLength walks the entire
+// growing path hundreds of times; this calculation is linear in segment count.
+function sampleCable(data, actualLength) {
+  const tokens = data.match(/[MCL]|-?\d+(?:\.\d+)?/g);
+  const samples = [];
+  let cursor = 0, x = 0, y = 0, length = 0;
+  function append(nx, ny) {
+    length += Math.hypot(nx-x, ny-y);
+    x = nx; y = ny;
+    samples.push({length, y});
+  }
+  while (cursor < tokens.length) {
+    const command = tokens[cursor++];
+    if (command === 'M') {
+      x = Number(tokens[cursor++]); y = Number(tokens[cursor++]);
+      samples.push({length, y});
+    } else if (command === 'L') {
+      append(Number(tokens[cursor++]), Number(tokens[cursor++]));
+    } else if (command === 'C') {
+      const a = tokens.slice(cursor, cursor+6).map(Number); cursor += 6;
+      const sx = x, sy = y;
+      for (let step = 1; step <= 32; step++) {
+        const t = step/32, u = 1-t;
+        append(u*u*u*sx+3*u*u*t*a[0]+3*u*t*t*a[2]+t*t*t*a[4],
+          u*u*u*sy+3*u*u*t*a[1]+3*u*t*t*a[3]+t*t*t*a[5]);
+      }
+    }
+  }
+  for (const sample of samples) sample.length *= actualLength/length;
+  return samples;
+}
 let signatureOffset = 0;
 let signatureLength = 0;
 let journeyLength = 0;
@@ -412,7 +473,7 @@ function rebuildJourney() {
   signatureInk.style.strokeDasharray = signatureLength;
   journeyPath.setAttribute('d', d);
   journeyLength = journeyPath.getTotalLength();
-  journeySamples = Array.from({length:301}, (_,i) => {const length=journeyLength*i/300;return {length,y:journeyPath.getPointAtLength(length).y};});
+  journeySamples = sampleCable(d, journeyLength);
   journeyPath.style.strokeDasharray = journeyLength;
   rebuildTextClearance();
   updateJourney();
@@ -435,6 +496,12 @@ function scheduleJourney() {
 }
 addEventListener('scroll',scheduleJourney,{passive:true});
 motionPreference.addEventListener('change',updateJourney);
-new ResizeObserver(rebuildJourney).observe(document.querySelector('main'));
-document.fonts.ready.then(rebuildJourney);
-addEventListener('load',rebuildJourney,{once:true});
+let rebuildFrame = false;
+function scheduleJourneyRebuild() {
+  if (rebuildFrame) return;
+  rebuildFrame = true;
+  requestAnimationFrame(() => { rebuildFrame = false; rebuildJourney(); });
+}
+new ResizeObserver(scheduleJourneyRebuild).observe(document.querySelector('main'));
+document.fonts.ready.then(scheduleJourneyRebuild);
+addEventListener('load',scheduleJourneyRebuild,{once:true});

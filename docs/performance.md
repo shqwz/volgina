@@ -1,0 +1,25 @@
+# Loading performance
+
+The published site keeps the original copy, 21 gallery photographs, four review screenshots, responsive layout and continuous drawing animation.
+
+## Changes
+
+- AVIF responsive thumbnails with browser-native WebP fallback. The browser selects the appropriate width using `srcset` and `sizes`. Full-resolution lightbox images load only on opening.
+- The hero's existing transparent mask is encoded into each responsive image, removing a separate mask request and compositing step.
+- Below-fold photographs load within 400 pixels of the viewport. Extra gallery photographs are requested only after expansion, with three concurrent downloads and request starts in DOM order. The queue pauses when collapsed. No placeholder GIF requests are needed.
+- Russian font subsets retain the site's glyphs, Russian alphabet, Latin characters and interface symbols. Font licenses and original font files remain available.
+- The cable is sampled directly from its cubic segments rather than calling SVG `getPointAtLength` 301 times per rebuild. Resize/font/load rebuilds and text-clearance updates are coalesced per animation frame. Scrolling upwards still retains already drawn segments.
+- JavaScript-disabled visitors receive all photographs through `noscript`. Browsers without AVIF support receive WebP.
+
+## Measurements
+
+Three cold-cache Chromium runs for each version and viewport, device pixel ratio 2, 900-pixel viewport height, 150 ms network latency, 200,000 bytes/s download throughput and 4× CPU throttling. Medians below are local lab results, not a guarantee of GitHub Pages response time. Resource weight excludes the HTML document; the local static server does not gzip CSS/JS.
+
+| Metric | Mobile 390 px before / after | Desktop 1440 px before / after |
+| --- | --- | --- |
+| Largest Contentful Paint | 2.30 / 1.35 s | 2.32 / 1.36 s |
+| Initial resource weight | 476 / 289 KiB | 518 / 323 KiB |
+| Gallery expansion, all extra images decoded | 4.47 / 2.90 s | 9.29 / 5.09 s |
+| Total long-task duration during initial loading | 2.14 / 0.17 s | 3.84 / 0.07 s |
+
+Additional checks passed at 360, 390, 768 and 1440 pixels: text clearance around format headings and pricing, distinct format images, straight final cable segment, and no horizontal overflow. At 390 and 1440 pixels all images decoded, the gallery retained its order and 21 photographs, repeated collapse/reopen worked, both lightboxes worked, reviews remained equal in size and the drawn cable survived scrolling back upwards. The visible text matched the previous version exactly. WebP fallback and JavaScript-disabled photo access passed.
