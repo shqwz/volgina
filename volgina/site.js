@@ -438,3 +438,14 @@ motionPreference.addEventListener('change',updateJourney);
 new ResizeObserver(rebuildJourney).observe(document.querySelector('main'));
 document.fonts.ready.then(rebuildJourney);
 addEventListener('load',rebuildJourney,{once:true});
+
+// The contact choices unfold beneath the original call-to-action.
+const contactToggle = document.querySelector('.contact-toggle');
+const contactOptions = document.querySelector('.contact-options');
+contactOptions.inert = true;
+contactToggle.addEventListener('click', () => {
+  const open = contactToggle.getAttribute('aria-expanded') !== 'true';
+  contactToggle.setAttribute('aria-expanded', String(open));
+  contactOptions.inert = !open;
+  contactOptions.classList.toggle('is-open',open);
+});

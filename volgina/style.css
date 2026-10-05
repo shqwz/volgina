@@ -59,9 +59,9 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .format-copy p{font-size:clamp(14px,1.2vw,17px);line-height:1.4}
 .format-card:nth-child(2)>img{aspect-ratio:1.5;max-height:260px;margin-top:-135px;grid-column:9/13;object-position:50% 12%}
 .format-card:nth-child(2) .format-copy{grid-column:6/9;padding-top:0;padding-right:12px;align-self:start}
-.format-card:nth-child(3)>img{aspect-ratio:2.6;max-height:200px;margin-top:-15px}
+.format-card:nth-child(3)>img{grid-column:1/6;aspect-ratio:2.25;max-height:200px;margin-top:-80px}
 .format-card:nth-child(4)>img{aspect-ratio:2.3;max-height:200px;margin-top:0;grid-column:8/13}
-.format-card:nth-child(3) .format-copy{grid-column:1/7}
+.format-card:nth-child(3) .format-copy{grid-column:1/7;margin-top:-65px}
 .price-note{margin-top:26px}
 }
 @media(min-width:761px) and (max-width:1100px){.format-card:nth-child(2)>img{margin-top:-65px}.formats-grid{gap:18px}.format-card:first-child .format-copy{padding-top:12px}.format-copy h3{font-size:29px}.format-copy p{font-size:14px}}
@@ -88,3 +88,15 @@ img[data-src]{display:none}.js img[data-src]{display:block}
 @media(min-width:761px){.reviews-grid .review-photo:nth-child(n){transform:none}.review-photo::before{display:none}}
 
 @media(max-width:760px){.review-photo::before{left:0;top:-25px;width:100%;height:25px;border:1.2px solid var(--ink);border-bottom:0;border-radius:50% 50% 0 0 / 100% 100% 0 0;transform:none;background:none}}
+
+.contact-options{position:relative;z-index:6;max-width:420px;margin:0 auto;display:grid;grid-template-rows:1fr;opacity:1}
+.contact-options-inner{overflow:hidden;min-height:0}
+.contact-links{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 0}
+.contact-links a{display:flex;align-items:center;justify-content:center;min-height:56px;border:1px solid var(--ink);font-size:17px;background:var(--paper);transition:background .2s,transform .2s}
+.contact-links a:hover{background:var(--rose);transform:translateY(-2px)}
+.contact-phone{display:block;width:max-content;margin:12px auto 6px;font-size:22px;line-height:1.5;white-space:nowrap}
+.js .contact-options{grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .4s var(--ease),opacity .3s,visibility .4s}
+.js .contact-options.is-open{grid-template-rows:1fr;opacity:1;visibility:visible}
+.js .contact-options-inner{transform:translateY(-10px);transition:transform .4s var(--ease)}
+.js .contact-options.is-open .contact-options-inner{transform:none}
+@media(max-width:760px){.contact-options{max-width:85%}.contact-links a{min-height:52px;font-size:16px}.contact-phone{font-size:20px}}
