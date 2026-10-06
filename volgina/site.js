@@ -208,8 +208,6 @@ if (reviewTrack) {
   updateReviewControls();
 }
 
-document.querySelector('.review-compose-details')?.addEventListener('toggle', () => rebuildJourney());
-
 // Reviews are saved for moderation by the hosting endpoint.
 const reviewForm = document.querySelector('.review-form');
 reviewForm.addEventListener('submit', async event => {
