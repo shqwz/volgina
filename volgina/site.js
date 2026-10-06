@@ -106,12 +106,16 @@ function renderPhoto() {
   lightboxImage.height = Number(thumbnail?.getAttribute('height') || link.dataset.photoHeight);
 }
 function stepPhoto(direction) {
+  if (photoSequence === reviewPhotos) return;
   photoIndex = (photoIndex + direction + photoSequence.length) % photoSequence.length;
   renderPhoto();
 }
 [...galleryPhotos, ...reviewPhotos].forEach(link => link.addEventListener('click', event => {
   event.preventDefault();
-  photoSequence = link.hasAttribute('data-review') ? reviewPhotos : galleryPhotos;
+  const originalReview = link.hasAttribute('data-review');
+  photoSequence = originalReview ? reviewPhotos : galleryPhotos;
+  previousPhoto.hidden = originalReview;
+  nextPhoto.hidden = originalReview;
   photoIndex = photoSequence.indexOf(link);
   photoOpener = link;
   renderPhoto();
@@ -131,7 +135,7 @@ dialog.addEventListener('close', () => {
 });
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeMenu();
-  if (!dialog.open) return;
+  if (!dialog.open || photoSequence === reviewPhotos) return;
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
     event.preventDefault();
     stepPhoto(event.key === 'ArrowLeft' ? -1 : 1);
@@ -139,6 +143,7 @@ document.addEventListener('keydown', event => {
 });
 let touchStart = null;
 lightboxImage.addEventListener('touchstart', event => {
+  if (photoSequence === reviewPhotos) { touchStart = null; return; }
   if (event.touches.length === 1) touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
   else touchStart = null;
 }, { passive: true });

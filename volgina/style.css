@@ -126,3 +126,18 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .review-form-note,.review-form-status{font-size:13px;line-height:1.6}.review-form-status:empty{display:none}.review-form-status[data-state="error"]{font-weight:500}
 .review-trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 @media(max-width:760px){.reviews-grid .review-text{aspect-ratio:auto;min-height:390px;padding:27px 24px}.review-text blockquote{font-size:15px}.review-text .review-author{font-size:29px}.review-form-wrap{margin-top:35px;padding-top:28px}.review-form-fields{grid-template-columns:1fr;gap:20px}.review-form-bottom{align-items:flex-start;flex-direction:column;gap:14px}.review-form-bottom .button{width:100%;min-width:0}.review-form input,.review-form textarea{font-size:16px}}
+
+/* Quiet paper relief and expressive type connect reviews to the site's visual language. */
+.review-text{padding:30px 24px 25px;gap:25px;border:1px solid #2523220b;border-radius:2px 2px 25px 3px;background-color:#fdfbf7;background-image:url('./textures/review-paper.svg');box-shadow:0 8px 24px #2523220b,0 1px 2px #2523220a}
+.review-text:nth-child(1){background-color:#f1e2da;border-radius:3px 3px 27px 3px}
+.review-text:nth-child(3){background-color:#f5eae4;border-radius:3px 3px 3px 27px}
+.review-text .review-author{font-size:clamp(25px,2.05vw,30px)}
+.review-author::after{content:'';display:block;width:62px;height:5px;margin-top:15px;background:var(--rose);border-radius:50%;transform:rotate(-3deg)}
+.review-text:nth-child(1) .review-author::after,.review-text:nth-child(3) .review-author::after{background:#c9aaa0}
+.review-emphasis{display:block;font:italic 400 clamp(27px,2.6vw,37px)/1.17 var(--display);letter-spacing:-.035em;margin:13px 0 16px;text-wrap:balance}
+.review-text:nth-child(3) .review-emphasis{margin-top:28px;font-size:clamp(31px,2.8vw,40px);letter-spacing:-.04em}
+.review-original{font-size:13px;min-height:40px;padding-top:10px;border-bottom:0;position:relative}
+.review-original::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);opacity:.4;transition:opacity .2s}
+.review-original:hover::after{opacity:1}
+.lightbox .lightbox-close{position:fixed;right:24px;top:24px;z-index:20}
+@media(max-width:760px){.reviews-grid .review-text{padding:30px 25px 25px}.review-emphasis{font-size:35px}.review-text:nth-child(3) .review-emphasis{font-size:40px}.lightbox .lightbox-close{right:14px;top:14px}}
