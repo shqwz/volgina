@@ -84,15 +84,19 @@ function vg_reviews_update(callable $mutate): array {
 
 function vg_reviews(): array {
     $content = vg_content();
-    if (empty($content['seeded'])) {
-        vg_reviews_update(function (array &$list) {
-            foreach (vg_schema()['seeds'] as $i => $seed) {
+    $done = $content['seeded_ids'] ?? (!empty($content['seeded']) ? ['seed-1', 'seed-2', 'seed-3', 'seed-4'] : []);
+    $todo = array_values(array_filter(vg_schema()['seeds'], fn($s) => !in_array($s['id'], $done, true)));
+    if ($todo) {
+        vg_reviews_update(function (array &$list) use ($todo) {
+            $max = 0; foreach ($list as $r) if (($r['status'] ?? '') === 'published') $max = max($max, (int)($r['order'] ?? 0));
+            foreach ($todo as $seed) {
+                $max++;
                 $list[] = ['id' => $seed['id'], 'name' => $seed['name'], 'occasion' => '', 'text' => $seed['text'],
-                    'status' => 'published', 'order' => $i + 1, 'created_at' => '2026-01-01T00:00:00+00:00',
+                    'status' => 'published', 'order' => $max, 'created_at' => '2026-01-01T00:00:00+00:00',
                     'published_at' => '2026-01-01T00:00:00+00:00', 'original' => $seed['original'], 'seed' => true];
             }
         });
-        vg_content_update(function (array &$c) { $c['seeded'] = true; });
+        vg_content_update(function (array &$c) { $c['seeded'] = true; $c['seeded_ids'] = array_column(vg_schema()['seeds'], 'id'); });
     }
     $list = vg_read_json(vg_dir() . '/reviews.json', []);
     foreach ($list as &$r) {
