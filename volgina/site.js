@@ -159,53 +159,71 @@ lightboxImage.addEventListener('touchcancel', () => { touchStart = null; }, { pa
 // Native scrolling supports swipes, keyboard focus and reduced motion.
 const reviewTrack = document.querySelector('.reviews-grid');
 if (reviewTrack) {
-  const cards = [...reviewTrack.querySelectorAll('.review-photo')];
-  const compactReviews = matchMedia('(max-width: 1100px)');
-  const lastReviewStart = () => Math.max(0, cards.length - (compactReviews.matches ? 1 : 4));
+  const composer = document.querySelector('.review-composer');
+  const mobileReviews = matchMedia('(max-width: 760px)');
+  const reviewCards = [...reviewTrack.querySelectorAll('.review-photo')];
+  let cards = [];
+  const lastReviewStart = () => Math.max(0, cards.length - (mobileReviews.matches ? 1 : 4));
   reviewTrack.id = 'review-track';
   const controls = document.createElement('div');
   controls.className = 'review-controls';
   controls.setAttribute('aria-label', 'Перелистывание отзывов');
-  controls.innerHTML = `<button class="review-step" type="button" data-direction="prev" aria-label="Предыдущий отзыв" aria-controls="review-track">${arrow('prev')}</button><div class="review-dots">${cards.map((_, i) => `<button type="button" class="review-dot" aria-label="${i === 0 ? 'Оставить отзыв' : `Показать отзыв ${i}`}" aria-controls="review-track"></button>`).join('')}</div><button class="review-step" type="button" data-direction="next" aria-label="Следующий отзыв" aria-controls="review-track">${arrow('next')}</button>`;
+  controls.innerHTML = `<button class="review-step" type="button" data-direction="prev" aria-label="Предыдущий отзыв" aria-controls="review-track">${arrow('prev')}</button><div class="review-dots"></div><button class="review-step" type="button" data-direction="next" aria-label="Следующий отзыв" aria-controls="review-track">${arrow('next')}</button>`;
   reviewTrack.after(controls);
-  const dots = [...controls.querySelectorAll('.review-dot')];
+  let dots = [];
   const previous = controls.querySelector('[data-direction="prev"]');
   const next = controls.querySelector('[data-direction="next"]');
   let activeReview = 0;
   let reviewFrame = false;
   function updateReviewControls() {
     reviewFrame = false;
-
-    const center = reviewTrack.getBoundingClientRect().left + (compactReviews.matches ? reviewTrack.clientWidth / 2 : 0);
+    const center = reviewTrack.getBoundingClientRect().left + (mobileReviews.matches ? reviewTrack.clientWidth / 2 : 0);
     let nearest = Infinity;
     cards.forEach((card, i) => {
       const bounds = card.getBoundingClientRect();
-      const distance = Math.abs(bounds.left + (compactReviews.matches ? bounds.width / 2 : 0) - center);
+      const distance = Math.abs(bounds.left + (mobileReviews.matches ? bounds.width / 2 : 0) - center);
       if (distance < nearest) { nearest = distance; activeReview = i; }
     });
     activeReview = Math.min(activeReview, lastReviewStart());
-    dots.forEach((dot, i) => {
-      dot.hidden = i > lastReviewStart();
-      dot.setAttribute('aria-current', String(i === activeReview));
-    });
+    dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === activeReview)));
     previous.disabled = activeReview === 0;
     next.disabled = activeReview === lastReviewStart();
   }
   function goToReview(index) {
     const card = cards[Math.max(0, Math.min(lastReviewStart(), index))];
-    const distance = compactReviews.matches
+    const distance = mobileReviews.matches
       ? card.getBoundingClientRect().left + card.offsetWidth / 2 - reviewTrack.getBoundingClientRect().left - reviewTrack.clientWidth / 2
       : card.getBoundingClientRect().left - reviewTrack.getBoundingClientRect().left;
     reviewTrack.scrollTo({ left: reviewTrack.scrollLeft + distance, behavior: motionPreference.matches ? 'instant' : 'smooth' });
   }
-  dots.forEach((dot, i) => dot.addEventListener('click', () => goToReview(i)));
+  function arrangeReviews() {
+    // Move the same form, preserving entered text and its submission listener.
+    // The mobile track contains only published reviews; desktop starts with the form.
+    if (mobileReviews.matches) controls.after(composer);
+    else reviewTrack.prepend(composer);
+    cards = mobileReviews.matches ? reviewCards : [composer, ...reviewCards];
+    const dotList = controls.querySelector('.review-dots');
+    dots = Array.from({length: lastReviewStart() + 1}, (_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'review-dot';
+      dot.setAttribute('aria-label', cards[i] === composer ? 'Оставить отзыв' : `Показать отзыв ${reviewCards.indexOf(cards[i]) + 1}`);
+      dot.setAttribute('aria-controls', 'review-track');
+      dot.addEventListener('click', () => goToReview(i));
+      return dot;
+    });
+    dotList.replaceChildren(...dots);
+    reviewTrack.scrollTo({left: 0, behavior: 'instant'});
+    updateReviewControls();
+  }
   previous.addEventListener('click', () => goToReview(activeReview - 1));
   next.addEventListener('click', () => goToReview(activeReview + 1));
   reviewTrack.addEventListener('scroll', () => {
     if (!reviewFrame) { reviewFrame = true; requestAnimationFrame(updateReviewControls); }
   }, { passive: true });
+  mobileReviews.addEventListener('change', arrangeReviews);
   addEventListener('resize', updateReviewControls);
-  updateReviewControls();
+  arrangeReviews();
 }
 
 // Reviews are saved for moderation by the hosting endpoint.
@@ -265,7 +283,7 @@ function rebuildTextClearance() {
     const walker = document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
     while(walker.nextNode()) {
       const node = walker.currentNode;
-      if(!node.textContent.trim() || node.parentElement.closest('.signature,[aria-hidden]')) continue;
+      if(!node.textContent.trim() || node.parentElement.closest('.signature,[aria-hidden],.reviews-grid,.review-composer')) continue;
       const range = document.createRange();
       range.selectNodeContents(node);
       for(const r of range.getClientRects()) {
@@ -281,6 +299,20 @@ function rebuildTextClearance() {
         cutouts.push(rect);
       }
     }
+  });
+  // Mask fixed regions, not moving card text: swipes must never shift the cable.
+  // Cover the whole detached form, including labels, fields and live messages.
+  main.querySelectorAll('.reviews-grid,.reviews>.review-composer,.review-controls').forEach(el => {
+    const r = el.getBoundingClientRect();
+    const padding = 12;
+    const rect = document.createElementNS(svgNamespace, 'rect');
+    rect.setAttribute('x', r.left - origin.left - padding);
+    const topInset = el === reviewTrack ? parseFloat(getComputedStyle(el).paddingTop) : 0;
+    rect.setAttribute('y', r.top - origin.top + topInset - padding);
+    rect.setAttribute('width', r.width + padding * 2);
+    rect.setAttribute('height', r.height - topInset + padding * 2);
+    rect.setAttribute('fill', 'black');
+    cutouts.push(rect);
   });
   textClearance.setAttribute('x','0');
   textClearance.setAttribute('y','0');
@@ -300,7 +332,7 @@ function rebuildJourney() {
   const hero = box('.hero'), photo = box('.hero-image'), cta = box('.hero .button');
   const about = box('.about'), formats = box('.formats'), comfort = box('.comfort');
   const gallery = box('.gallery'), reviews = box('.reviews'), contacts = box('.contacts');
-  const reviewTrackBox = box('.reviews-grid'), firstReview = box('.review-photo');
+  const reviewTrackBox = box('.reviews-grid'), firstReview = box('.reviews-grid .review-photo');
   const mobileReviewEdge = reviewTrackBox.x+parseFloat(getComputedStyle(document.querySelector('.reviews-grid')).paddingLeft)+firstReview.w;
   const finalButton = box('.contact-control');
   const signature = box('.signature');
@@ -363,7 +395,6 @@ function rebuildJourney() {
     d += ` C ${p(x(.96),galleryExitY+12)} ${p(x(.98),galleryExitY+22)} ${p(x(.98),galleryExitY+40)}`;
     d += ` L ${p(x(.98),reviews.y+40)}`;
     d += ` C ${p(x(.98),reviews.y+60)} ${p(x(.94),reviews.y+90)} ${p(x(.88),reviews.y+100)}`;
-    if (width > 1100) {
     // Four fixed wave positions do not move when the cards scroll.
     const gap = parseFloat(getComputedStyle(reviewTrack).columnGap);
     const cardWidth = (reviewTrackBox.w - gap * 3) / 4;
@@ -375,10 +406,6 @@ function rebuildJourney() {
       d += ` C ${p(card.right-span*.25,card.y-62)} ${p(card.left+span*.25,card.y-62)} ${p(card.left,card.y)}`;
       if(index<cards.length-1) d += ` L ${p(cards[index+1].right,cards[index+1].y)}`;
     });
-    } else {
-      d += ` C ${p(x(1.02),reviews.y+170)} ${p(mobileReviewEdge+40,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
-      d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
-    }
     d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.7),reviews.y+reviews.h+10)} ${p(x(.78),contacts.y+120)}`;
     d += ` C ${p(x(.84),y(contacts,.6))} ${p(x(.8),finalButton.y+finalButton.h*.5)} ${p(x(.76),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
@@ -399,7 +426,10 @@ function rebuildJourney() {
     d += ` L ${p(x(.99),gallery.y+gallery.h+20)}`;
     d += ` C ${p(x(.94),reviews.y+70)} ${p(reviewTrackBox.x+reviewTrackBox.w*.65,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
     d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
-    d += ` C ${p(x(.01),y(reviews,.28))} ${p(x(.02),y(reviews,.91))} ${p(x(.38),reviews.y+reviews.h)}`;
+    // Continue along the outer margin, clear of the separate mobile form.
+    d += ` C ${p(mobileReviewEdge,firstReview.y+firstReview.h*.25)} ${p(x(.02),firstReview.y+firstReview.h*.25)} ${p(x(.02),firstReview.y+firstReview.h*.5)}`;
+    d += ` L ${p(x(.02),reviews.y+reviews.h-30)}`;
+    d += ` C ${p(x(.02),reviews.y+reviews.h)} ${p(x(.16),reviews.y+reviews.h)} ${p(x(.38),reviews.y+reviews.h)}`;
     d += ` C ${p(x(1.05),contacts.y+10)} ${p(x(1.04),finalButton.y+finalButton.h*.5)} ${p(x(.98),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
   }

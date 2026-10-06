@@ -158,25 +158,12 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .review-composer .review-form-note,.review-composer .review-form-status{font-size:12px}
 @media(max-width:760px){.review-composer .review-form input,.review-composer .review-form textarea{font-size:16px}}
 
-@media(min-width:761px) and (max-width:1100px){
-.reviews-grid{--review-card-width:clamp(280px,38vw,350px);display:flex;gap:18px;padding:40px 3% 20px;padding-right:calc(50% - var(--review-card-width)/2);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:3%;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
-.reviews-grid::-webkit-scrollbar{display:none}
-.reviews-grid .review-photo{flex:0 0 var(--review-card-width);min-width:280px;max-width:350px;scroll-snap-align:center;scroll-snap-stop:always}
-.review-photo::before{display:block;left:0;top:-40px;width:100%;height:40px;border:1.2px solid var(--ink);border-bottom:0;border-radius:50% 50% 0 0 / 100% 100% 0 0;transform:none;background:none}
-.review-controls{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.review-step{display:grid;place-items:center;width:44px;height:44px;background:transparent;border:1px solid var(--ink);border-radius:50%;cursor:pointer}
-.review-step:disabled{opacity:.35;cursor:default}
-.review-dots{display:flex}.review-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer}
-.review-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ink);transition:transform .25s}
-.review-dot[aria-current=true]::before{transform:scale(1.6)}
-}
-
 /* Four visible notes on wide screens; the remaining notes slide through. */
-@media(min-width:1101px){
+@media(min-width:761px){
 .reviews .section-heading{margin-bottom:8px}
 .reviews-grid{display:flex;gap:18px;padding:62px 0 20px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
 .reviews-grid::-webkit-scrollbar{display:none}
-.reviews-grid .review-photo{flex:0 0 calc((100% - 54px)/4);max-width:none;scroll-snap-align:start;scroll-snap-stop:always}
+.reviews-grid .review-photo{flex:0 0 calc((100% - 54px)/4);min-width:0;max-width:none;scroll-snap-align:start;scroll-snap-stop:always}
 .review-controls{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .review-step{display:grid;place-items:center;width:44px;height:44px;background:transparent;border:1px solid var(--ink);border-radius:50%;cursor:pointer}
 .review-step:disabled{opacity:.35;cursor:default}
@@ -200,3 +187,17 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .review-composer .review-form-bottom .button{min-height:46px;padding:12px 14px;font-size:13px;justify-content:space-between}
 .review-composer .review-form-note{font-size:11px;color:#252322b3}
 @media(max-width:760px){.review-composer .review-form input,.review-composer .review-form textarea{font-size:16px}}
+
+/* A single composer sits below the reviews and navigation on mobile. */
+.review-composer{background-color:#f1e2da;border-radius:3px 3px 27px 3px}
+@media(max-width:760px){
+.reviews>.review-composer{margin-top:30px;padding:30px 25px 25px;min-height:0;transform:none}
+.reviews>.review-composer::before{display:none}
+.reviews>.review-composer .review-form{width:100%;max-width:none}
+.reviews-grid .review-text:first-child{background-color:#fdfbf7;border-radius:2px 2px 25px 3px}
+.reviews-grid .review-text:first-child .review-author::after{background:var(--rose)}
+.reviews-grid .review-text:nth-child(3){background-color:#f5eae4;border-radius:3px 3px 3px 27px}
+.reviews-grid .review-text:nth-child(3) .review-author::after{background:#c9aaa0}
+.reviews-grid .review-text:nth-child(4){background-color:#fdfbf7;border-radius:2px 2px 25px 3px}
+.reviews-grid .review-text:nth-child(4) .review-author::after{background:var(--rose)}
+}
