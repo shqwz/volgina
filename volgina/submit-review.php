@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// Public submissions remain private and pending until approved in the future admin UI.
+// Public submissions remain private and pending until approved in the admin panel (./admin/).
 function respond(int $code, bool $ok, string $message): void {
     http_response_code($code);
     header('Cache-Control: no-store');
@@ -46,8 +46,8 @@ function lengthOf(string $value): int { return preg_match_all('/./us', $value); 
 if (lengthOf($name) < 1 || lengthOf($name) > 100 || lengthOf($occasion) > 150 || lengthOf($text) < 20 || lengthOf($text) > 3000) {
     respond(422, false, 'Укажите имя и отзыв от 20 до 3000 символов.');
 }
-// /home/lazurin/public_html/volgina -> /home/lazurin/volgina-review-data
-$directory = getenv('VOLGINA_REVIEW_DATA_DIR') ?: dirname(__DIR__, 2) . '/volgina-review-data';
+require_once __DIR__ . '/admin/paths.php';
+$directory = volgina_data_dir();
 umask(0077);
 if (!is_dir($directory) && !@mkdir($directory, 0700, true) && !is_dir($directory)) {
     respond(503, false, 'Не удалось сохранить отзыв. Попробуйте позже.');

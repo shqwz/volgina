@@ -1,0 +1,6 @@
+
+# admin
+.dev-data/
+volgina/admin/config.local.php
+volgina/images/uploads/*
+!volgina/images/uploads/.htaccess

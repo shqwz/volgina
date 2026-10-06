@@ -1,0 +1,712 @@
+{
+ "fields": [
+  {
+   "key": "hero.eyebrow",
+   "label": "Строка над именем",
+   "group": "Первый экран",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Ведущая праздников · 15 лет на сцене"
+  },
+  {
+   "key": "hero.tagline",
+   "label": "Девиз",
+   "group": "Первый экран",
+   "kind": "text",
+   "hint": "Новая строка — это перенос строки на сайте.",
+   "maxlen": 300,
+   "default": "Праздники, в которых\nесть душа, стиль и смысл."
+  },
+  {
+   "key": "hero.description",
+   "label": "Короткое описание",
+   "group": "Первый экран",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 400,
+   "default": "Создаю атмосферу, где каждый чувствует себя важным, а праздник запоминается надолго."
+  },
+  {
+   "key": "about.title",
+   "label": "Заголовок",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Давайте\nпознакомимся"
+  },
+  {
+   "key": "about.lead",
+   "label": "Первое предложение (крупно)",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 400,
+   "default": "Привет! Я — Ирина. И я верю, что лучшая программа праздника — это истории самих людей."
+  },
+  {
+   "key": "about.p1",
+   "label": "Абзац 1",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 700,
+   "default": "На моих вечерах родители плачут от счастья, друзья смеются до слёз, а незнакомые между собой люди к концу вечера становятся одной большой семьёй."
+  },
+  {
+   "key": "about.p2",
+   "label": "Абзац 2",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 700,
+   "default": "Актёрское образование, внимание к деталям и любовь к своему делу помогают мне создавать события с вашим характером."
+  },
+  {
+   "key": "about.signature",
+   "label": "Подпись на фото",
+   "group": "Знакомство",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 30,
+   "default": "Ирина"
+  },
+  {
+   "key": "about.f1.num",
+   "label": "Факт 1 — число",
+   "group": "Знакомство",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 6,
+   "default": "15"
+  },
+  {
+   "key": "about.f1.unit",
+   "label": "Факт 1 — слово после числа",
+   "group": "Знакомство",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 20,
+   "default": "лет"
+  },
+  {
+   "key": "about.f1.text",
+   "label": "Факт 1 — пояснение",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 120,
+   "default": "на сцене\nи в мире праздников"
+  },
+  {
+   "key": "about.f2.title",
+   "label": "Факт 2 — заголовок",
+   "group": "Знакомство",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Ваши истории"
+  },
+  {
+   "key": "about.f2.text",
+   "label": "Факт 2 — пояснение",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 120,
+   "default": "в основе\nкаждого сценария"
+  },
+  {
+   "key": "about.f3.title",
+   "label": "Факт 3 — заголовок",
+   "group": "Знакомство",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Живые эмоции"
+  },
+  {
+   "key": "about.f3.text",
+   "label": "Факт 3 — пояснение",
+   "group": "Знакомство",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 120,
+   "default": "то, ради чего\nмы собираемся вместе"
+  },
+  {
+   "key": "formats.title",
+   "label": "Заголовок раздела",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Форматы событий"
+  },
+  {
+   "key": "formats.wedding.title",
+   "label": "«Свадьбы» — название",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Свадьбы"
+  },
+  {
+   "key": "formats.wedding.text",
+   "label": "«Свадьбы» — описание",
+   "group": "Форматы и цена",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Трогательные моменты, искренние тосты и вечер, который станет вашей историей."
+  },
+  {
+   "key": "formats.jubilee.title",
+   "label": "«Юбилеи» — название",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Юбилеи"
+  },
+  {
+   "key": "formats.jubilee.text",
+   "label": "«Юбилеи» — описание",
+   "group": "Форматы и цена",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Тёплая встреча близких людей, воспоминания и новые поводы улыбнуться."
+  },
+  {
+   "key": "formats.birthday.title",
+   "label": "«Дни рождения» — название",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Дни рождения"
+  },
+  {
+   "key": "formats.birthday.text",
+   "label": "«Дни рождения» — описание",
+   "group": "Форматы и цена",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Живой праздник с любимыми людьми — с вашим характером и настроением."
+  },
+  {
+   "key": "formats.graduation.title",
+   "label": "«Выпускные» — название",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Выпускные"
+  },
+  {
+   "key": "formats.graduation.text",
+   "label": "«Выпускные» — описание",
+   "group": "Форматы и цена",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Особенный вечер на пороге новой главы. Для выпускников, родителей и учителей."
+  },
+  {
+   "key": "formats.price_text",
+   "label": "Фраза перед ценой",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 200,
+   "default": "Свадьбы, выпускные, юбилеи и дни рождения —"
+  },
+  {
+   "key": "formats.price",
+   "label": "Цена (число после «от»)",
+   "group": "Форматы и цена",
+   "kind": "line",
+   "hint": "Например: 5 000",
+   "maxlen": 14,
+   "default": "5 000"
+  },
+  {
+   "key": "comfort.title",
+   "label": "Заголовок",
+   "group": "Почему со мной комфортно",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Почему со мной\nкомфортно"
+  },
+  {
+   "key": "comfort.b3.title",
+   "label": "Пункт 3 — заголовок",
+   "group": "Почему со мной комфортно",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 80,
+   "default": "Всё в одних руках"
+  },
+  {
+   "key": "comfort.b3.text",
+   "label": "Пункт 3 — текст",
+   "group": "Почему со мной комфортно",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 400,
+   "default": "Согласую детали с площадкой, звуком, фотографом и артистами, чтобы вы могли наслаждаться вечером."
+  },
+  {
+   "key": "comfort.b2.title",
+   "label": "Пункт 2 — заголовок",
+   "group": "Почему со мной комфортно",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 80,
+   "default": "Сценарий про вас"
+  },
+  {
+   "key": "comfort.b2.text",
+   "label": "Пункт 2 — текст",
+   "group": "Почему со мной комфортно",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 400,
+   "default": "Программа под ваш повод, гостей и место. Актёрское образование позволяет добавить сцены, номера и образы."
+  },
+  {
+   "key": "comfort.b1.title",
+   "label": "Пункт 1 — заголовок",
+   "group": "Почему со мной комфортно",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 80,
+   "default": "Чувствовать настроение"
+  },
+  {
+   "key": "comfort.b1.text",
+   "label": "Пункт 1 — текст",
+   "group": "Почему со мной комфортно",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 400,
+   "default": "Держу темп и внимание от первого тоста до последнего танца. Слышу гостей и оставляю место живым эмоциям."
+  },
+  {
+   "key": "comfort.quote",
+   "label": "Подпись на фото",
+   "group": "Почему со мной комфортно",
+   "kind": "text",
+   "hint": "Каждая строка — отдельная строка на фото.",
+   "maxlen": 120,
+   "default": "Праздник —\nэто люди,\nа не сценарий."
+  },
+  {
+   "key": "gallery.title",
+   "label": "Заголовок раздела",
+   "group": "Галерея",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Жизнь в кадре"
+  },
+  {
+   "key": "gallery.caption",
+   "label": "Подпись под галереей",
+   "group": "Галерея",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 120,
+   "default": "Маленькие мгновения большой истории"
+  },
+  {
+   "key": "reviews.title",
+   "label": "Заголовок раздела",
+   "group": "Отзывы",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Тёплые слова"
+  },
+  {
+   "key": "contacts.title1",
+   "label": "Заголовок — первая строка",
+   "group": "Контакты и подвал",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 40,
+   "default": "Каким будет"
+  },
+  {
+   "key": "contacts.title2",
+   "label": "Заголовок — выделенная строка",
+   "group": "Контакты и подвал",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 40,
+   "default": "ваш праздник?"
+  },
+  {
+   "key": "contacts.text",
+   "label": "Текст под заголовком",
+   "group": "Контакты и подвал",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Расскажите о поводе, дате и ваших пожеланиях.\nВместе придумаем вечер, который хочется вспоминать."
+  },
+  {
+   "key": "footer.tagline",
+   "label": "Фраза в подвале",
+   "group": "Контакты и подвал",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 60,
+   "default": "Праздники с душой"
+  },
+  {
+   "key": "meta.title",
+   "label": "Название во вкладке браузера",
+   "group": "Для поисковиков и ссылок",
+   "kind": "line",
+   "hint": "",
+   "maxlen": 90,
+   "default": "Ирина Волгина — ведущая праздников"
+  },
+  {
+   "key": "meta.description",
+   "label": "Описание для поисковиков и ссылок",
+   "group": "Для поисковиков и ссылок",
+   "kind": "text",
+   "hint": "",
+   "maxlen": 300,
+   "default": "Ирина Волгина — ведущая свадеб, юбилеев, дней рождения и выпускных. Живые эмоции, личный сценарий и 15 лет на сцене."
+  }
+ ],
+ "photos": [
+  {
+   "id": "about",
+   "label": "Фото в разделе «Знакомство»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g21-360.avif 360w, ./images/optimized/g21-640.avif 640w, ./images/optimized/g21-960.avif 960w, ./images/optimized/g21-1440.avif 1440w\" sizes=\"(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px\"><img src=\"./images/optimized/g21-640.webp\" alt=\"Ирина Волгина\" loading=\"eager\" fetchpriority=\"low\" width=\"1920\" height=\"2560\" srcset=\"./images/optimized/g21-360.webp 360w, ./images/optimized/g21-640.webp 640w, ./images/optimized/g21-960.webp 960w, ./images/optimized/g21-1440.webp 1440w\" sizes=\"(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px\" decoding=\"async\"></picture>",
+   "base": "g21",
+   "alt": "Ирина Волгина",
+   "w": 1920,
+   "h": 2560,
+   "sizes": "(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px"
+  },
+  {
+   "id": "format.wedding",
+   "label": "Карточка «Свадьбы»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g6-360.avif 360w, ./images/optimized/g6-640.avif 640w, ./images/optimized/g6-760.avif 760w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 60vw, 850px\"><img src=\"./images/optimized/g6-640.webp\" alt=\"Свадьбы\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"507\" srcset=\"./images/optimized/g6-360.webp 360w, ./images/optimized/g6-640.webp 640w, ./images/optimized/g6-760.webp 760w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 60vw, 850px\" decoding=\"async\"></picture>",
+   "base": "g6",
+   "alt": "Свадьбы",
+   "w": 760,
+   "h": 507,
+   "sizes": "(max-width: 760px) 44vw, (max-width: 1440px) 60vw, 850px"
+  },
+  {
+   "id": "format.jubilee",
+   "label": "Карточка «Юбилеи»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g8-360.avif 360w, ./images/optimized/g8-640.avif 640w, ./images/optimized/g8-760.avif 760w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g8-640.webp\" alt=\"Юбилеи\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1013\" srcset=\"./images/optimized/g8-360.webp 360w, ./images/optimized/g8-640.webp 640w, ./images/optimized/g8-760.webp 760w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g8",
+   "alt": "Юбилеи",
+   "w": 760,
+   "h": 1013,
+   "sizes": "(max-width: 760px) 44vw, (max-width: 1440px) 30vw, 420px"
+  },
+  {
+   "id": "format.birthday",
+   "label": "Карточка «Дни рождения»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g11-360.avif 360w, ./images/optimized/g11-640.avif 640w, ./images/optimized/g11-760.avif 760w\" sizes=\"(max-width: 760px) 90vw, (max-width: 1440px) 44vw, 620px\"><img src=\"./images/optimized/g11-640.webp\" alt=\"Дни рождения\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"506\" srcset=\"./images/optimized/g11-360.webp 360w, ./images/optimized/g11-640.webp 640w, ./images/optimized/g11-760.webp 760w\" sizes=\"(max-width: 760px) 90vw, (max-width: 1440px) 44vw, 620px\" decoding=\"async\"></picture>",
+   "base": "g11",
+   "alt": "Дни рождения",
+   "w": 760,
+   "h": 506,
+   "sizes": "(max-width: 760px) 90vw, (max-width: 1440px) 44vw, 620px"
+  },
+  {
+   "id": "format.graduation",
+   "label": "Карточка «Выпускные»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g13-360.avif 360w, ./images/optimized/g13-640.avif 640w, ./images/optimized/g13-960.avif 960w, ./images/optimized/g13-1129.avif 1129w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 38vw, 520px\"><img src=\"./images/optimized/g13-640.webp\" alt=\"Выпускные\" loading=\"eager\" fetchpriority=\"low\" width=\"1129\" height=\"756\" srcset=\"./images/optimized/g13-360.webp 360w, ./images/optimized/g13-640.webp 640w, ./images/optimized/g13-960.webp 960w, ./images/optimized/g13-1129.webp 1129w\" sizes=\"(max-width: 760px) 44vw, (max-width: 1440px) 38vw, 520px\" decoding=\"async\"></picture>",
+   "base": "g13",
+   "alt": "Выпускные",
+   "w": 1129,
+   "h": 756,
+   "sizes": "(max-width: 760px) 44vw, (max-width: 1440px) 38vw, 520px"
+  },
+  {
+   "id": "comfort",
+   "label": "Фото в разделе «Почему со мной комфортно»",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/comfort-original-480.avif 480w, ./images/optimized/comfort-original-960.avif 960w, ./images/optimized/comfort-original-1440.avif 1440w\" sizes=\"(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px\"><img src=\"./images/optimized/comfort-original-960.webp\" alt=\"Ирина ведёт праздничный вечер\" loading=\"eager\" fetchpriority=\"low\" width=\"2560\" height=\"1707\" srcset=\"./images/optimized/comfort-original-480.webp 480w, ./images/optimized/comfort-original-960.webp 960w, ./images/optimized/comfort-original-1440.webp 1440w\" sizes=\"(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px\" decoding=\"async\"></picture>",
+   "base": "comfort-original",
+   "alt": "Ирина ведёт праздничный вечер",
+   "w": 2560,
+   "h": 1707,
+   "sizes": "(max-width: 760px) 85vw, (max-width: 1440px) 45vw, 650px"
+  }
+ ],
+ "gallery": [
+  {
+   "id": "g4",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g4-360.avif 360w, ./images/optimized/g4-640.avif 640w, ./images/optimized/g4-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g4-640.webp\" alt=\"Гости на свадьбе\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1140\" srcset=\"./images/optimized/g4-360.webp 360w, ./images/optimized/g4-640.webp 640w, ./images/optimized/g4-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g4",
+   "alt": "Гости на свадьбе",
+   "w": 760,
+   "h": 1140,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g4-full.webp"
+  },
+  {
+   "id": "g1",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g1-360.avif 360w, ./images/optimized/g1-640.avif 640w, ./images/optimized/g1-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g1-640.webp\" alt=\"Ирина проводит праздник\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1140\" srcset=\"./images/optimized/g1-360.webp 360w, ./images/optimized/g1-640.webp 640w, ./images/optimized/g1-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g1",
+   "alt": "Ирина проводит праздник",
+   "w": 760,
+   "h": 1140,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g1-full.webp"
+  },
+  {
+   "id": "g5",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g5-360.avif 360w, ./images/optimized/g5-640.avif 640w, ./images/optimized/g5-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g5-640.webp\" alt=\"Живые эмоции гостей\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"507\" srcset=\"./images/optimized/g5-360.webp 360w, ./images/optimized/g5-640.webp 640w, ./images/optimized/g5-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g5",
+   "alt": "Живые эмоции гостей",
+   "w": 760,
+   "h": 507,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g5-full.webp"
+  },
+  {
+   "id": "g9",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g9-360.avif 360w, ./images/optimized/g9-640.avif 640w, ./images/optimized/g9-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 60vw, 850px\"><img src=\"./images/optimized/g9-640.webp\" alt=\"Гости участвуют в программе\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"506\" srcset=\"./images/optimized/g9-360.webp 360w, ./images/optimized/g9-640.webp 640w, ./images/optimized/g9-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 60vw, 850px\" decoding=\"async\"></picture>",
+   "base": "g9",
+   "alt": "Гости участвуют в программе",
+   "w": 760,
+   "h": 506,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 60vw, 850px",
+   "full": "./images/optimized/g9-full.webp"
+  },
+  {
+   "id": "g6",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g6-360.avif 360w, ./images/optimized/g6-640.avif 640w, ./images/optimized/g6-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g6-640.webp\" alt=\"Молодожёны и ведущая\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"507\" srcset=\"./images/optimized/g6-360.webp 360w, ./images/optimized/g6-640.webp 640w, ./images/optimized/g6-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g6",
+   "alt": "Молодожёны и ведущая",
+   "w": 760,
+   "h": 507,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g6-full.webp"
+  },
+  {
+   "id": "g10",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g10-360.avif 360w, ./images/optimized/g10-640.avif 640w, ./images/optimized/g10-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g10-640.webp\" alt=\"Общее фото с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"507\" srcset=\"./images/optimized/g10-360.webp 360w, ./images/optimized/g10-640.webp 640w, ./images/optimized/g10-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g10",
+   "alt": "Общее фото с праздника",
+   "w": 760,
+   "h": 507,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g10-full.webp"
+  },
+  {
+   "id": "g2",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g2-360.avif 360w, ./images/optimized/g2-640.avif 640w, ./images/optimized/g2-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g2-640.webp\" alt=\"Выступление Ирины\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"507\" srcset=\"./images/optimized/g2-360.webp 360w, ./images/optimized/g2-640.webp 640w, ./images/optimized/g2-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g2",
+   "alt": "Выступление Ирины",
+   "w": 760,
+   "h": 507,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g2-full.webp"
+  },
+  {
+   "id": "g8",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g8-360.avif 360w, ./images/optimized/g8-640.avif 640w, ./images/optimized/g8-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g8-640.webp\" alt=\"Юбилей\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1013\" srcset=\"./images/optimized/g8-360.webp 360w, ./images/optimized/g8-640.webp 640w, ./images/optimized/g8-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g8",
+   "alt": "Юбилей",
+   "w": 760,
+   "h": 1013,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g8-full.webp"
+  },
+  {
+   "id": "g3",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g3-360.avif 360w, ./images/optimized/g3-640.avif 640w, ./images/optimized/g3-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g3-640.webp\" alt=\"Ирина с гостем на празднике\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1140\" srcset=\"./images/optimized/g3-360.webp 360w, ./images/optimized/g3-640.webp 640w, ./images/optimized/g3-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g3",
+   "alt": "Ирина с гостем на празднике",
+   "w": 760,
+   "h": 1140,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g3-full.webp"
+  },
+  {
+   "id": "g7",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g7-360.avif 360w, ./images/optimized/g7-640.avif 640w, ./images/optimized/g7-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g7-640.webp\" alt=\"Портрет Ирины\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"994\" srcset=\"./images/optimized/g7-360.webp 360w, ./images/optimized/g7-640.webp 640w, ./images/optimized/g7-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g7",
+   "alt": "Портрет Ирины",
+   "w": 760,
+   "h": 994,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g7-full.webp"
+  },
+  {
+   "id": "g11",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g11-360.avif 360w, ./images/optimized/g11-640.avif 640w, ./images/optimized/g11-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g11-640.webp\" alt=\"Гости участвуют в программе\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"506\" srcset=\"./images/optimized/g11-360.webp 360w, ./images/optimized/g11-640.webp 640w, ./images/optimized/g11-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g11",
+   "alt": "Гости участвуют в программе",
+   "w": 760,
+   "h": 506,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g11-full.webp"
+  },
+  {
+   "id": "g12",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g12-360.avif 360w, ./images/optimized/g12-640.avif 640w, ./images/optimized/g12-760.avif 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g12-640.webp\" alt=\"Ирина в праздничном образе\" loading=\"eager\" fetchpriority=\"low\" width=\"760\" height=\"1013\" srcset=\"./images/optimized/g12-360.webp 360w, ./images/optimized/g12-640.webp 640w, ./images/optimized/g12-760.webp 760w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g12",
+   "alt": "Ирина в праздничном образе",
+   "w": 760,
+   "h": 1013,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g12-full.webp"
+  },
+  {
+   "id": "g13",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g13-360.avif 360w, ./images/optimized/g13-640.avif 640w, ./images/optimized/g13-960.avif 960w, ./images/optimized/g13-1129.avif 1129w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g13-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"1129\" height=\"756\" srcset=\"./images/optimized/g13-360.webp 360w, ./images/optimized/g13-640.webp 640w, ./images/optimized/g13-960.webp 960w, ./images/optimized/g13-1129.webp 1129w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g13",
+   "alt": "Момент с праздника",
+   "w": 1129,
+   "h": 756,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g13-full.webp"
+  },
+  {
+   "id": "g14",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g14-360.avif 360w, ./images/optimized/g14-640.avif 640w, ./images/optimized/g14-960.avif 960w, ./images/optimized/g14-1280.avif 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g14-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"1280\" height=\"853\" srcset=\"./images/optimized/g14-360.webp 360w, ./images/optimized/g14-640.webp 640w, ./images/optimized/g14-960.webp 960w, ./images/optimized/g14-1280.webp 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g14",
+   "alt": "Момент с праздника",
+   "w": 1280,
+   "h": 853,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g14-full.webp"
+  },
+  {
+   "id": "g15",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g15-360.avif 360w, ./images/optimized/g15-640.avif 640w, ./images/optimized/g15-960.avif 960w, ./images/optimized/g15-1280.avif 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g15-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"1280\" height=\"853\" srcset=\"./images/optimized/g15-360.webp 360w, ./images/optimized/g15-640.webp 640w, ./images/optimized/g15-960.webp 960w, ./images/optimized/g15-1280.webp 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g15",
+   "alt": "Момент с праздника",
+   "w": 1280,
+   "h": 853,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g15-full.webp"
+  },
+  {
+   "id": "g16",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g16-360.avif 360w, ./images/optimized/g16-640.avif 640w, ./images/optimized/g16-960.avif 960w, ./images/optimized/g16-1280.avif 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g16-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"1280\" height=\"853\" srcset=\"./images/optimized/g16-360.webp 360w, ./images/optimized/g16-640.webp 640w, ./images/optimized/g16-960.webp 960w, ./images/optimized/g16-1280.webp 1280w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g16",
+   "alt": "Момент с праздника",
+   "w": 1280,
+   "h": 853,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g16-full.webp"
+  },
+  {
+   "id": "g17",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g17-360.avif 360w, ./images/optimized/g17-640.avif 640w, ./images/optimized/g17-960.avif 960w, ./images/optimized/g17-1130.avif 1130w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g17-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"1130\" height=\"768\" srcset=\"./images/optimized/g17-360.webp 360w, ./images/optimized/g17-640.webp 640w, ./images/optimized/g17-960.webp 960w, ./images/optimized/g17-1130.webp 1130w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g17",
+   "alt": "Момент с праздника",
+   "w": 1130,
+   "h": 768,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g17-full.webp"
+  },
+  {
+   "id": "g18",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g18-360.avif 360w, ./images/optimized/g18-640.avif 640w, ./images/optimized/g18-682.avif 682w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g18-640.webp\" alt=\"Момент с праздника\" loading=\"eager\" fetchpriority=\"low\" width=\"682\" height=\"1024\" srcset=\"./images/optimized/g18-360.webp 360w, ./images/optimized/g18-640.webp 640w, ./images/optimized/g18-682.webp 682w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g18",
+   "alt": "Момент с праздника",
+   "w": 682,
+   "h": 1024,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g18-full.webp"
+  },
+  {
+   "id": "g19",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g19-360.avif 360w, ./images/optimized/g19-640.avif 640w, ./images/optimized/g19-960.avif 960w, ./images/optimized/g19-1080.avif 1080w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g19-640.webp\" alt=\"Дед Мороз и Снегурочка\" loading=\"eager\" fetchpriority=\"low\" width=\"1080\" height=\"2400\" srcset=\"./images/optimized/g19-360.webp 360w, ./images/optimized/g19-640.webp 640w, ./images/optimized/g19-960.webp 960w, ./images/optimized/g19-1080.webp 1080w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g19",
+   "alt": "Дед Мороз и Снегурочка",
+   "w": 1080,
+   "h": 2400,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g19-full.webp"
+  },
+  {
+   "id": "g20",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g20-360.avif 360w, ./images/optimized/g20-640.avif 640w, ./images/optimized/g20-960.avif 960w, ./images/optimized/g20-961.avif 961w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g20-640.webp\" alt=\"Ирина в сценическом образе\" loading=\"eager\" fetchpriority=\"low\" width=\"961\" height=\"1280\" srcset=\"./images/optimized/g20-360.webp 360w, ./images/optimized/g20-640.webp 640w, ./images/optimized/g20-960.webp 960w, ./images/optimized/g20-961.webp 961w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g20",
+   "alt": "Ирина в сценическом образе",
+   "w": 961,
+   "h": 1280,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g20-full.webp"
+  },
+  {
+   "id": "g21",
+   "markup": "<picture class=\"responsive-photo\"><source type=\"image/avif\" srcset=\"./images/optimized/g21-360.avif 360w, ./images/optimized/g21-640.avif 640w, ./images/optimized/g21-960.avif 960w, ./images/optimized/g21-1440.avif 1440w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\"><img src=\"./images/optimized/g21-640.webp\" alt=\"Ирина на мероприятии\" loading=\"eager\" fetchpriority=\"low\" width=\"1920\" height=\"2560\" srcset=\"./images/optimized/g21-360.webp 360w, ./images/optimized/g21-640.webp 640w, ./images/optimized/g21-960.webp 960w, ./images/optimized/g21-1440.webp 1440w\" sizes=\"(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px\" decoding=\"async\"></picture>",
+   "base": "g21",
+   "alt": "Ирина на мероприятии",
+   "w": 1920,
+   "h": 2560,
+   "sizes": "(max-width: 760px) 46vw, (max-width: 1440px) 30vw, 420px",
+   "full": "./images/optimized/g21-full.webp"
+  }
+ ],
+ "seeds": [
+  {
+   "id": "seed-1",
+   "name": "Наталья",
+   "text": "Да не за что) Ты мастер своего дела, я уверена в тебе) 😘👍",
+   "original": {
+    "href": "./images/optimized/review-telegram-full.webp",
+    "w": 1160,
+    "h": 2285
+   }
+  },
+  {
+   "id": "seed-2",
+   "name": "Семья Литвиновых",
+   "text": "Ирина, приветствую! Всё вчера собиралась написать, пишу сегодня)) Все гости в восторге от вас, у меня несколько человек спросили, где мы нашли такую зажигалку! И конкурсы прикольные, и весело! Спасибо вам огромное, праздник прошел на ура! 🙏🏻",
+   "original": {
+    "href": "./images/optimized/review-whatsapp-full.webp",
+    "w": 1160,
+    "h": 2285
+   }
+  },
+  {
+   "id": "seed-3",
+   "name": "Катя",
+   "text": "Тебе спасибо за эмоции😍 гости в восторге🥰 ТЫ ЛУЧШАЯ🥰😘😘😘😘😘",
+   "original": {
+    "href": "./images/optimized/review-instagram-full.webp",
+    "w": 1160,
+    "h": 2080
+   }
+  },
+  {
+   "id": "seed-4",
+   "name": "Кристина",
+   "text": "Ириша, огромное спасибо за наш юбилей, было очень весело. Как всегда, активно, интересно. Спасибо за подарок, было очень приятно). Дай бог теперь встретить юбилей — 25 лет). Уже будем бабулями, дедулями веселиться.",
+   "original": {
+    "href": "./images/optimized/review-kristina-full.webp",
+    "w": 1080,
+    "h": 2400
+   }
+  }
+ ],
+ "contacts": {
+  "vk": "https://vk.ru/volgina0401",
+  "max": "https://max.ru/u/f9LHodD0cOLU977xbkszW-Xg9deLphXwVSyAkNBXWOyjkwyyzWrtHyUWFts",
+  "phone": ""
+ }
+}

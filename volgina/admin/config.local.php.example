@@ -1,0 +1,4 @@
+<?php
+// Copy to config.local.php and set your own one-time code. It is only used for the very first login,
+// when the administrator password is chosen. Never commit config.local.php.
+return ['setup_code' => 'put-a-long-random-code-here'];
