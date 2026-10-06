@@ -2,7 +2,7 @@
 
 The four existing cards retain their original horizontal layout and mobile swipe controls. Each contains text transcribed from its original screenshot and a link to open that screenshot in the lightbox. Original review screenshots have no next/previous or swipe navigation; the close button sits at the right edge of the viewport. Gallery navigation remains available. The cards use subtle paper grain, powder-pink accents and one consistent body typeface throughout each review. Gallery images and all other page copy are unchanged.
 
-The form underneath accepts a name, optional event description and review text. `submit-review.php` validates submissions and stores them with `status: pending`; it does not publish them. Moderation will be added with the planned admin interface.
+An expandable first card, before the four published reviews, contains the form. Native details/summary controls support keyboard use and keep entered values when collapsed. Mobile carousel navigation includes this card, and the cable follows all five cards. The form accepts a name, optional event description and review text. `submit-review.php` validates submissions and stores them with `status: pending`; it does not publish them. Moderation will be added with the planned admin interface.
 
 ## Hosting
 

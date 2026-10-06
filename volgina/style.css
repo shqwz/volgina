@@ -130,10 +130,10 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 /* Quiet paper relief and expressive type connect reviews to the site's visual language. */
 .review-text{padding:30px 24px 25px;gap:25px;border:1px solid #2523220b;border-radius:2px 2px 25px 3px;background-color:#fdfbf7;background-image:url('./textures/review-paper.svg');box-shadow:0 8px 24px #2523220b,0 1px 2px #2523220a}
 .review-text:nth-child(1){background-color:#f1e2da;border-radius:3px 3px 27px 3px}
-.review-text:nth-child(3){background-color:#f5eae4;border-radius:3px 3px 3px 27px}
+.review-text:nth-child(4){background-color:#f5eae4;border-radius:3px 3px 3px 27px}
 .review-text .review-author{font-size:clamp(25px,2.05vw,30px)}
 .review-author::after{content:'';display:block;width:62px;height:5px;margin-top:15px;background:var(--rose);border-radius:50%;transform:rotate(-3deg)}
-.review-text:nth-child(1) .review-author::after,.review-text:nth-child(3) .review-author::after{background:#c9aaa0}
+.review-text:nth-child(1) .review-author::after,.review-text:nth-child(4) .review-author::after{background:#c9aaa0}
 .review-original{font-size:13px;min-height:40px;padding-top:10px;border-bottom:0;position:relative}
 .review-original::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);opacity:.4;transition:opacity .2s}
 .review-original:hover::after{opacity:1}
@@ -145,3 +145,37 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .lightbox .lightbox-close:focus-visible{border-color:var(--rose)}
 .review-original:focus{outline:none}
 .review-original:focus-visible::after{height:2px;opacity:1}
+
+/* The first note unfolds into the review form. */
+.reviews-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.review-compose-details{flex:1;min-width:0}
+.review-compose-details summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:354px}
+.review-compose-details summary::-webkit-details-marker{display:none}
+.review-compose-details summary:focus-visible{outline:0}
+.review-compose-details summary:focus-visible .review-compose-icon{border-width:2px}
+.review-compose-icon{display:grid;place-items:center;align-self:flex-start;width:58px;height:58px;border:1px solid var(--ink);border-radius:50%;font:300 35px/1 var(--body);transition:transform .2s,background-color .2s}
+.review-compose-details summary:hover .review-compose-icon{background:var(--paper)}
+.review-compose-details[open] summary{min-height:0;flex-direction:row;align-items:flex-start;margin-bottom:22px;gap:10px}
+.review-compose-details[open] .review-compose-icon{width:32px;height:32px;flex-shrink:0;font-size:26px;transform:rotate(45deg)}
+.review-composer .review-form{gap:15px}
+.review-composer .review-form-fields{grid-template-columns:1fr;gap:15px}
+.review-composer .review-form label{font-size:12px;gap:6px}
+.review-composer .review-form input,.review-composer .review-form textarea{padding:10px;min-height:42px}
+.review-composer .review-form textarea{min-height:110px}
+.review-composer .review-form-bottom{flex-direction:column;align-items:stretch;gap:12px}
+.review-composer .review-form-bottom .button{width:100%;min-width:0;padding:12px 8px;font-size:12px;gap:6px}
+.review-composer .review-form-note,.review-composer .review-form-status{font-size:12px}
+@media(max-width:760px){.review-compose-details summary{min-height:335px}.review-composer .review-form input,.review-composer .review-form textarea{font-size:16px}}
+
+@media(min-width:761px) and (max-width:1100px){
+.reviews-grid{--review-card-width:clamp(280px,38vw,350px);display:flex;gap:18px;padding:40px 3% 20px;padding-right:calc(50% - var(--review-card-width)/2);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:3%;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
+.reviews-grid::-webkit-scrollbar{display:none}
+.reviews-grid .review-photo{flex:0 0 var(--review-card-width);min-width:280px;max-width:350px;scroll-snap-align:center;scroll-snap-stop:always}
+.review-photo::before{display:block;left:0;top:-40px;width:100%;height:40px;border:1.2px solid var(--ink);border-bottom:0;border-radius:50% 50% 0 0 / 100% 100% 0 0;transform:none;background:none}
+.review-controls{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.review-step{display:grid;place-items:center;width:44px;height:44px;background:transparent;border:1px solid var(--ink);border-radius:50%;cursor:pointer}
+.review-step:disabled{opacity:.35;cursor:default}
+.review-dots{display:flex}.review-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer}
+.review-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ink);transition:transform .25s}
+.review-dot[aria-current=true]::before{transform:scale(1.6)}
+}

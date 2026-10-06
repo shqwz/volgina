@@ -160,12 +160,12 @@ lightboxImage.addEventListener('touchcancel', () => { touchStart = null; }, { pa
 const reviewTrack = document.querySelector('.reviews-grid');
 if (reviewTrack) {
   const cards = [...reviewTrack.querySelectorAll('.review-photo')];
-  const mobileReviews = matchMedia('(max-width: 760px)');
+  const mobileReviews = matchMedia('(max-width: 1100px)');
   reviewTrack.id = 'review-track';
   const controls = document.createElement('div');
   controls.className = 'review-controls';
   controls.setAttribute('aria-label', 'Перелистывание отзывов');
-  controls.innerHTML = `<button class="review-step" type="button" data-direction="prev" aria-label="Предыдущий отзыв" aria-controls="review-track">${arrow('prev')}</button><div class="review-dots">${cards.map((_, i) => `<button type="button" class="review-dot" aria-label="Показать отзыв ${i + 1}" aria-controls="review-track"></button>`).join('')}</div><button class="review-step" type="button" data-direction="next" aria-label="Следующий отзыв" aria-controls="review-track">${arrow('next')}</button>`;
+  controls.innerHTML = `<button class="review-step" type="button" data-direction="prev" aria-label="Предыдущий отзыв" aria-controls="review-track">${arrow('prev')}</button><div class="review-dots">${cards.map((_, i) => `<button type="button" class="review-dot" aria-label="${i === 0 ? 'Оставить отзыв' : `Показать отзыв ${i}`}" aria-controls="review-track"></button>`).join('')}</div><button class="review-step" type="button" data-direction="next" aria-label="Следующий отзыв" aria-controls="review-track">${arrow('next')}</button>`;
   reviewTrack.after(controls);
   const dots = [...controls.querySelectorAll('.review-dot')];
   const previous = controls.querySelector('[data-direction="prev"]');
@@ -200,6 +200,8 @@ if (reviewTrack) {
   addEventListener('resize', updateReviewControls);
   updateReviewControls();
 }
+
+document.querySelector('.review-compose-details')?.addEventListener('toggle', () => rebuildJourney());
 
 // Reviews are saved for moderation by the hosting endpoint.
 const reviewForm = document.querySelector('.review-form');
@@ -356,6 +358,7 @@ function rebuildJourney() {
     d += ` C ${p(x(.96),galleryExitY+12)} ${p(x(.98),galleryExitY+22)} ${p(x(.98),galleryExitY+40)}`;
     d += ` L ${p(x(.98),reviews.y+40)}`;
     d += ` C ${p(x(.98),reviews.y+60)} ${p(x(.94),reviews.y+90)} ${p(x(.88),reviews.y+100)}`;
+    if (width > 1100) {
     const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {left:r.left-origin.left,right:r.right-origin.left,y:r.top-origin.top};}).reverse();
     d += ` C ${p(x(1.02),reviews.y+170)} ${p(cards[0].right+55,cards[0].y)} ${p(cards[0].right,cards[0].y)}`;
     cards.forEach((card,index) => {
@@ -364,6 +367,10 @@ function rebuildJourney() {
       d += ` C ${p(card.right-span*.25,card.y-62)} ${p(card.left+span*.25,card.y-62)} ${p(card.left,card.y)}`;
       if(index<cards.length-1) d += ` L ${p(cards[index+1].right,cards[index+1].y)}`;
     });
+    } else {
+      d += ` C ${p(x(1.02),reviews.y+170)} ${p(mobileReviewEdge+40,firstReview.y-35)} ${p(mobileReviewEdge,firstReview.y)}`;
+      d += ` L ${p(mobileReviewEdge,firstReview.y+10)}`;
+    }
     d += ` C ${p(x(.01),y(reviews,.88))} ${p(x(.7),reviews.y+reviews.h+10)} ${p(x(.78),contacts.y+120)}`;
     d += ` C ${p(x(.84),y(contacts,.6))} ${p(x(.8),finalButton.y+finalButton.h*.5)} ${p(x(.76),finalButton.y+finalButton.h*.5)}`;
     d += ` L ${p(finalButton.x+finalButton.w,finalButton.y+finalButton.h*.5)}`;
