@@ -134,10 +134,14 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .review-text .review-author{font-size:clamp(25px,2.05vw,30px)}
 .review-author::after{content:'';display:block;width:62px;height:5px;margin-top:15px;background:var(--rose);border-radius:50%;transform:rotate(-3deg)}
 .review-text:nth-child(1) .review-author::after,.review-text:nth-child(3) .review-author::after{background:#c9aaa0}
-.review-emphasis{display:block;font:italic 400 clamp(27px,2.6vw,37px)/1.17 var(--display);letter-spacing:-.035em;margin:13px 0 16px;text-wrap:balance}
-.review-text:nth-child(3) .review-emphasis{margin-top:28px;font-size:clamp(31px,2.8vw,40px);letter-spacing:-.04em}
 .review-original{font-size:13px;min-height:40px;padding-top:10px;border-bottom:0;position:relative}
 .review-original::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);opacity:.4;transition:opacity .2s}
 .review-original:hover::after{opacity:1}
 .lightbox .lightbox-close{position:fixed;right:24px;top:24px;z-index:20}
-@media(max-width:760px){.reviews-grid .review-text{padding:30px 25px 25px}.review-emphasis{font-size:35px}.review-text:nth-child(3) .review-emphasis{font-size:40px}.lightbox .lightbox-close{right:14px;top:14px}}
+@media(max-width:760px){.reviews-grid .review-text{padding:30px 25px 25px}.lightbox .lightbox-close{right:14px;top:14px}}
+
+/* One circular close control; focus uses the same border. */
+.lightbox .lightbox-close:focus{outline:none}
+.lightbox .lightbox-close:focus-visible{border-color:var(--rose)}
+.review-original:focus{outline:none}
+.review-original:focus-visible::after{height:2px;opacity:1}
