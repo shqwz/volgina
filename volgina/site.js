@@ -50,6 +50,22 @@ addEventListener('scroll', scheduleScrollEffects, { passive: true });
 addEventListener('resize', scheduleScrollEffects);
 updateScrollEffects();
 
+// Section links scroll smoothly without writing #anchors into the address bar,
+// and a link opened with an old #anchor starts at the top.
+if (location.hash) {
+  history.replaceState(null, '', location.pathname + location.search);
+  scrollTo(0, 0);
+}
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link || event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey) return;
+  const target = document.getElementById(link.getAttribute('href').slice(1));
+  if (!target) return;
+  event.preventDefault();
+  target.scrollIntoView({ behavior: motionPreference.matches ? 'auto' : 'smooth', block: 'start' });
+  if (target.tabIndex >= 0) target.focus({ preventScroll: true });
+});
+
 // All photographs are requested by the HTML parser at startup.
 // Gallery controls change visibility only, never image sources or loading.
 const galleryExtra = document.querySelector('#gallery-extra');
