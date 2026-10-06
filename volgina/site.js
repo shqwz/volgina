@@ -160,7 +160,8 @@ lightboxImage.addEventListener('touchcancel', () => { touchStart = null; }, { pa
 const reviewTrack = document.querySelector('.reviews-grid');
 if (reviewTrack) {
   const cards = [...reviewTrack.querySelectorAll('.review-photo')];
-  const mobileReviews = matchMedia('(max-width: 1100px)');
+  const compactReviews = matchMedia('(max-width: 1100px)');
+  const lastReviewStart = () => Math.max(0, cards.length - (compactReviews.matches ? 1 : 4));
   reviewTrack.id = 'review-track';
   const controls = document.createElement('div');
   controls.className = 'review-controls';
@@ -174,21 +175,27 @@ if (reviewTrack) {
   let reviewFrame = false;
   function updateReviewControls() {
     reviewFrame = false;
-    if (!mobileReviews.matches) return;
-    const center = reviewTrack.getBoundingClientRect().left + reviewTrack.clientWidth / 2;
+
+    const center = reviewTrack.getBoundingClientRect().left + (compactReviews.matches ? reviewTrack.clientWidth / 2 : 0);
     let nearest = Infinity;
     cards.forEach((card, i) => {
       const bounds = card.getBoundingClientRect();
-      const distance = Math.abs(bounds.left + bounds.width / 2 - center);
+      const distance = Math.abs(bounds.left + (compactReviews.matches ? bounds.width / 2 : 0) - center);
       if (distance < nearest) { nearest = distance; activeReview = i; }
     });
-    dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === activeReview)));
+    activeReview = Math.min(activeReview, lastReviewStart());
+    dots.forEach((dot, i) => {
+      dot.hidden = i > lastReviewStart();
+      dot.setAttribute('aria-current', String(i === activeReview));
+    });
     previous.disabled = activeReview === 0;
-    next.disabled = activeReview === cards.length - 1;
+    next.disabled = activeReview === lastReviewStart();
   }
   function goToReview(index) {
-    const card = cards[Math.max(0, Math.min(cards.length - 1, index))];
-    const distance = card.getBoundingClientRect().left + card.offsetWidth / 2 - reviewTrack.getBoundingClientRect().left - reviewTrack.clientWidth / 2;
+    const card = cards[Math.max(0, Math.min(lastReviewStart(), index))];
+    const distance = compactReviews.matches
+      ? card.getBoundingClientRect().left + card.offsetWidth / 2 - reviewTrack.getBoundingClientRect().left - reviewTrack.clientWidth / 2
+      : card.getBoundingClientRect().left - reviewTrack.getBoundingClientRect().left;
     reviewTrack.scrollTo({ left: reviewTrack.scrollLeft + distance, behavior: motionPreference.matches ? 'instant' : 'smooth' });
   }
   dots.forEach((dot, i) => dot.addEventListener('click', () => goToReview(i)));
@@ -359,7 +366,10 @@ function rebuildJourney() {
     d += ` L ${p(x(.98),reviews.y+40)}`;
     d += ` C ${p(x(.98),reviews.y+60)} ${p(x(.94),reviews.y+90)} ${p(x(.88),reviews.y+100)}`;
     if (width > 1100) {
-    const cards = [...document.querySelectorAll('.review-photo')].map(el => {const r=el.getBoundingClientRect();return {left:r.left-origin.left,right:r.right-origin.left,y:r.top-origin.top};}).reverse();
+    // Four fixed wave positions do not move when the cards scroll.
+    const gap = parseFloat(getComputedStyle(reviewTrack).columnGap);
+    const cardWidth = (reviewTrackBox.w - gap * 3) / 4;
+    const cards = Array.from({length:4}, (_, i) => ({left:reviewTrackBox.x + i * (cardWidth + gap),right:reviewTrackBox.x + i * (cardWidth + gap) + cardWidth,y:firstReview.y})).reverse();
     d += ` C ${p(x(1.02),reviews.y+170)} ${p(cards[0].right+55,cards[0].y)} ${p(cards[0].right,cards[0].y)}`;
     cards.forEach((card,index) => {
       const span=card.right-card.left;

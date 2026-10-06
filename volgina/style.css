@@ -179,3 +179,18 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .review-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ink);transition:transform .25s}
 .review-dot[aria-current=true]::before{transform:scale(1.6)}
 }
+
+/* Four visible notes on wide screens; the remaining notes slide through. */
+@media(min-width:1101px){
+.reviews .section-heading{margin-bottom:8px}
+.reviews-grid{display:flex;gap:18px;padding:62px 0 20px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
+.reviews-grid::-webkit-scrollbar{display:none}
+.reviews-grid .review-photo{flex:0 0 calc((100% - 54px)/4);max-width:none;scroll-snap-align:start;scroll-snap-stop:always}
+.review-controls{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.review-step{display:grid;place-items:center;width:44px;height:44px;background:transparent;border:1px solid var(--ink);border-radius:50%;cursor:pointer}
+.review-step:disabled{opacity:.35;cursor:default}
+.review-dots{display:flex}.review-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer}
+.review-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ink);transition:transform .25s}
+.review-dot[aria-current=true]::before{transform:scale(1.6)}
+}
+.review-dot[hidden]{display:none}
