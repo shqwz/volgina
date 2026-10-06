@@ -98,12 +98,12 @@ let savedOverflow = '';
 function renderPhoto() {
   const link = photoSequence[photoIndex];
   const thumbnail = link.querySelector('img');
-  lightboxImage.classList.toggle('review-clean-edges', thumbnail.classList.contains('review-clean-edges'));
-  lightboxImage.alt = thumbnail.alt;
+  lightboxImage.classList.toggle('review-clean-edges', thumbnail?.classList.contains('review-clean-edges') || false);
+  lightboxImage.alt = thumbnail?.alt || link.dataset.photoAlt;
   lightboxImage.src = link.dataset.review || link.getAttribute('href');
   // Keep the dialog within the viewport; image geometry is established before decoding.
-  lightboxImage.width = Number(thumbnail.getAttribute('width'));
-  lightboxImage.height = Number(thumbnail.getAttribute('height'));
+  lightboxImage.width = Number(thumbnail?.getAttribute('width') || link.dataset.photoWidth);
+  lightboxImage.height = Number(thumbnail?.getAttribute('height') || link.dataset.photoHeight);
 }
 function stepPhoto(direction) {
   photoIndex = (photoIndex + direction + photoSequence.length) % photoSequence.length;
@@ -124,6 +124,7 @@ nextPhoto.addEventListener('click', () => stepPhoto(1));
 dialog.querySelector('.lightbox-close').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
 dialog.addEventListener('close', () => {
+  if (dialog.open) return; // Ignore a stale close event after a quick reopen.
   document.body.style.overflow = savedOverflow;
   lightboxImage.removeAttribute('src');
   photoOpener?.focus({ preventScroll: true });
@@ -194,6 +195,33 @@ if (reviewTrack) {
   addEventListener('resize', updateReviewControls);
   updateReviewControls();
 }
+
+// Reviews are saved for moderation by the hosting endpoint.
+const reviewForm = document.querySelector('.review-form');
+reviewForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!reviewForm.reportValidity()) return;
+  const submit = reviewForm.querySelector('[type="submit"]');
+  const status = reviewForm.querySelector('.review-form-status');
+  const label = submit.innerHTML;
+  submit.disabled = true;
+  submit.textContent = 'Отправляем…';
+  status.textContent = '';
+  try {
+    const response = await fetch(reviewForm.action, {
+      method: 'POST', body: new FormData(reviewForm), headers: {Accept:'application/json'}
+    });
+    if (!response.headers.get('Content-Type')?.includes('application/json')) throw new Error('Не удалось отправить отзыв. Попробуйте позже.');
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить отзыв. Попробуйте позже.');
+    reviewForm.reset();
+    status.dataset.state = 'success';
+    status.textContent = result.message;
+  } catch (error) {
+    status.dataset.state = 'error';
+    status.textContent = error instanceof TypeError ? 'Не удалось отправить отзыв. Проверьте соединение и попробуйте ещё раз.' : error.message;
+  } finally { submit.disabled = false; submit.innerHTML = label; }
+});
 
 // A single responsive cable connects the whole evening. Rebuild after gallery expansion.
 const journeySvg = document.querySelector('.journey-line');
