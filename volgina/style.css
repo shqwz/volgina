@@ -200,3 +200,9 @@ main{overflow:clip}.hero-image img{clip-path:none;mask-image:url('./images/hero-
 .reviews-grid .review-text:not(.review-composer) .review-author::after{background:var(--rose)}
 .reviews-grid .review-text:not(.review-composer):nth-child(3n+1){background-color:#f5eae4;border-radius:3px 3px 3px 27px}
 .reviews-grid .review-text:not(.review-composer):nth-child(3n+1) .review-author::after{background:#c9aaa0}
+/* Developer credit below the footer. */
+.credit{max-width:1280px;margin:0 var(--gutter);padding:2px 0 26px;text-align:center;font-size:13px;line-height:1.4;color:var(--muted)}
+.credit a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:#25232255;transition:text-decoration-color .25s,color .25s}
+.credit a:hover{text-decoration-color:currentColor}
+.credit a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(min-width:1348px){.credit{margin-inline:auto}}
